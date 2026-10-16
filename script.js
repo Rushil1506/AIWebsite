@@ -3466,8 +3466,8 @@ function initMissionStory() {
         const st = ScrollTrigger.getById("mission-story-progress");
         if (st) {
           const targetY = st.start + targetProgress * (st.end - st.start);
-          if (STATE.lenis && !STATE.reducedMotion) {
-            STATE.lenis.scrollTo(targetY);
+          if (STATE.lenis) {
+            STATE.lenis.scrollTo(targetY, { immediate: STATE.reducedMotion });
           } else {
             window.scrollTo({ top: targetY, behavior: STATE.reducedMotion ? "auto" : "smooth" });
           }
