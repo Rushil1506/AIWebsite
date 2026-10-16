@@ -408,6 +408,10 @@ class SpringValue {
     this.velocity += deltaVelocity;
   }
 
+  addVelocity(deltaVelocity) {
+    this.impulse(deltaVelocity);
+  }
+
   get() {
     return this.value;
   }
@@ -480,6 +484,10 @@ class Spring2D {
   impulse(vx, vy) {
     this.x.impulse(vx);
     this.y.impulse(vy);
+  }
+
+  addVelocity(vx, vy) {
+    this.impulse(vx, vy);
   }
 
   isAtRest() {
@@ -810,8 +818,12 @@ function hydrateContent() {
   };
 
   window.addEventListener("resize", () => {
+    runAllFits();
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(runAllFits, 60);
+    resizeTimer = setTimeout(() => {
+      runAllFits();
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    }, 80);
   });
   runAllFits();
 
@@ -988,14 +1000,18 @@ function fitLetsTalk() {
   const line2 = document.getElementById("lt-line-2");
   if (!stage || !measure || !line1 || !line2) return;
 
-  const targetWidth = stage.clientWidth;
+  // Reset inline font sizes before reading container width so previous larger sizes never inflate mobile layout viewport
+  measure.style.fontSize = "";
+  line1.style.fontSize = "";
+  line2.style.fontSize = "";
+
+  const viewportW = document.documentElement.clientWidth || window.innerWidth;
+  const targetWidth = Math.min(stage.clientWidth, viewportW - 32);
   if (targetWidth <= 0) return;
 
-  const isMobileStack = window.innerWidth < 640;
+  const isMobileStack = viewportW < 640;
 
   if (!isMobileStack) {
-    line1.style.fontSize = "";
-    line2.style.fontSize = "";
     measure.style.fontSize = "100px";
     const measuredW = measure.getBoundingClientRect().width;
     if (measuredW > 0) {
@@ -1003,7 +1019,6 @@ function fitLetsTalk() {
       measure.style.fontSize = `${fitted}px`;
     }
   } else {
-    measure.style.fontSize = "";
     [line1, line2].forEach((lineEl) => {
       lineEl.style.fontSize = "100px";
       const lw = lineEl.getBoundingClientRect().width;
@@ -1205,7 +1220,7 @@ function initOrbitalScene() {
 
   const initialDpr = getCappedPixelRatio();
   renderer.setPixelRatio(initialDpr);
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.02;
 
@@ -1686,15 +1701,17 @@ function initOrbitalScene() {
   animate();
 
   window.addEventListener("resize", () => {
-    isMobile = window.innerWidth < 768;
+    const w = document.documentElement.clientWidth || window.innerWidth;
+    const h = window.innerHeight;
+    isMobile = w < 768;
     const dpr = getCappedPixelRatio();
-    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setPixelRatio(dpr);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setSize(w, h, false);
     composer.setPixelRatio(dpr);
-    composer.setSize(window.innerWidth, window.innerHeight);
-    bloomPass.resolution.set(window.innerWidth, window.innerHeight);
+    composer.setSize(w, h);
+    bloomPass.resolution.set(w, h);
   });
 }
 
@@ -3802,26 +3819,19 @@ function initMissionStory() {
   }
 
   if (window.gsap && window.ScrollTrigger) {
-    gsap.to(
-      { value: 0 },
-      {
-        value: 1,
-        ease: "none",
-        onUpdate: function () {
-          progress = this.targets()[0].value;
-          draw();
-        },
-        scrollTrigger: {
-          id: "mission-story-progress",
-          trigger: section,
-          start: "top top",
-          end: () => `+=${Math.max(2200, window.innerHeight * MOTION.scroll.missionPinScreens)}`,
-          pin: "#mission-pin-wrap",
-          scrub: MOTION.scroll.scrubSmooth,
-          invalidateOnRefresh: true
-        }
+    ScrollTrigger.create({
+      id: "mission-story-progress",
+      trigger: section,
+      start: "top top",
+      end: () => `+=${Math.max(2200, window.innerHeight * MOTION.scroll.missionPinScreens)}`,
+      pin: "#mission-pin-wrap",
+      scrub: MOTION.scroll.scrubSmooth,
+      invalidateOnRefresh: true,
+      onUpdate: (self) => {
+        progress = self.progress;
+        draw();
       }
-    );
+    });
   } else {
     const update = () => {
       const r = section.getBoundingClientRect();
