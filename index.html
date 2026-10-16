@@ -1,0 +1,449 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RUSHIL — Orbital Systems &amp; Creative Engineering (2000 // 2026)</title>
+    <meta name="description" content="Personal monograph of Rushil Jindal — B.Tech CSE at MIT Manipal, ADCS Engineer on the Parikshit 2U CubeSat, and hardware/software builder." />
+
+    <!-- Google Fonts: Syne (Display), JetBrains Mono (Telemetry/Body), Anton & Bebas Neue (Closing "LET'S TALK") -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- ES Module Import Map for Modern Three.js (r160) & Addons -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body class="is-loading">
+
+    <!-- =====================================================================
+        BOOT SEQUENCE OVERLAY (Cinematic Terminal Initializing Screen)
+        ===================================================================== -->
+    <div id="boot-screen" role="dialog" aria-modal="true" aria-label="System Initialization">
+      <div class="boot-scanlines" aria-hidden="true"></div>
+      <div class="boot-inner">
+        <div class="boot-header">
+          <span class="mono-tag">PARIKSHIT_OBC // ADCS TELEMETRY KERNEL v2.06</span>
+          <span class="mono-tag boot-status-blink">SYS.INIT</span>
+        </div>
+
+        <div class="boot-log" id="boot-log" aria-live="polite"></div>
+
+        <div class="boot-progress-wrap">
+          <div class="boot-progress-meta">
+            <span id="boot-task-label">CALIBRATING RM3100 MAGNETOMETER...</span>
+            <span id="boot-percent">000%</span>
+          </div>
+          <div class="boot-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="boot-progressbar">
+            <div class="boot-progress-bar" id="boot-progress-bar"></div>
+          </div>
+        </div>
+
+        <div class="boot-actions" id="boot-actions">
+          <button type="button" id="btn-enter-sound" class="gel-pill gel-pill--primary" data-cursor="SOUND ON">
+            <span class="pill-dot" aria-hidden="true"></span> ENTER ORBIT (WITH AUDIO)
+          </button>
+          <button type="button" id="btn-enter-muted" class="gel-pill" data-cursor="SILENT">
+            ENTER SILENT
+          </button>
+          <button type="button" id="btn-skip-boot" class="boot-skip-link" data-cursor="SKIP">
+            [ SKIP INTRO // ESC ]
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+        FIXED 3D WEBGL CANVAS & ATMOSPHERIC OVERLAYS
+        ===================================================================== -->
+    <div id="webgl-container" aria-hidden="true">
+      <canvas id="orbital-canvas"></canvas>
+    </div>
+    <div class="ambient-grid" id="ambient-grid" aria-hidden="true"></div>
+    <div class="y2k-lens-flare" id="y2k-lens-flare" aria-hidden="true"></div>
+    <div class="overdrive-crt-overlay" aria-hidden="true"></div>
+
+    <!-- =====================================================================
+        CUSTOM CURSOR, SPARKLE LAYER & CURSOR TOAST (Z-Index Above Boot Screen)
+        ===================================================================== -->
+    <canvas id="sparkle-canvas" aria-hidden="true"></canvas>
+    <div id="cursor-dot" aria-hidden="true"></div>
+    <div id="cursor-ring" aria-hidden="true">
+      <span id="cursor-label"></span>
+    </div>
+    <div id="cursor-toast" role="status" aria-live="polite"></div>
+
+    <!-- =====================================================================
+        FIXED EDITORIAL HUD / NAVIGATION
+        ===================================================================== -->
+    <header class="hud-top">
+      <a href="#hero" class="hud-brand" data-cursor="HOME">
+        <span class="status-led" aria-hidden="true"></span>
+        <span id="hud-name">RUSHIL</span>
+        <span class="hud-badge">(2000 // LEO)</span>
+      </a>
+
+      <nav class="hud-nav" aria-label="Primary Navigation">
+        <a href="#about" data-cursor="01">01.About</a>
+        <a href="#work" data-cursor="02">02.Index</a>
+        <a href="#gallery" data-cursor="03">03.Logs</a>
+        <a href="#guestbook" data-cursor="06">06.Sign</a>
+        <a href="#contact" data-cursor="07">07.Talk</a>
+      </nav>
+
+      <div class="hud-controls">
+        <button type="button" id="toggle-overdrive" class="hud-btn" data-cursor="CHAOS" aria-pressed="false" title="Press ESC to toggle Y2K Overdrive">
+          ESC : Y2K <span id="overdrive-state">OFF</span>
+        </button>
+        <button type="button" id="toggle-sound" class="hud-btn" data-cursor="AUDIO" aria-pressed="false" title="Toggle Web Audio Synthesizer">
+          SND <span id="sound-state">OFF</span>
+        </button>
+        <button type="button" id="toggle-motion" class="hud-btn" data-cursor="MOTION" aria-pressed="true" title="Toggle Reduced Motion">
+          MOT <span id="motion-state">ON</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Fixed Bottom Telemetry Strip -->
+    <div class="hud-bottom">
+      <div class="hud-adcs" id="adcs-telemetry">
+        <span class="hud-label">ADCS // SAT</span>
+        <span>R: <strong id="tel-roll">+00.4°</strong></span>
+        <span>P: <strong id="tel-pitch">-02.1°</strong></span>
+        <span>Y: <strong id="tel-yaw">+14.8°</strong></span>
+        <span class="hide-mobile">ALT: <strong id="tel-alt">601.8 KM</strong></span>
+        <span class="hud-model-status" id="sat-model-status">ACQUIRING SATELLITE MODEL...</span>
+      </div>
+
+      <div class="hud-ping-toast" id="satellite-toast" role="status" aria-live="polite"></div>
+
+      <div class="hud-loc">
+        <span>MANIPAL, IN</span>
+        <span class="hud-sep">//</span>
+        <span id="local-clock">--:--:-- IST</span>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+        MAIN SMOOTH-SCROLL STORY CONTAINER
+        ===================================================================== -->
+    <main id="smooth-wrapper">
+      <div id="smooth-content">
+
+        <!-- 00 // HERO SECTION -->
+        <section id="hero" class="section section--hero" data-section="00">
+          <div class="hero-top-meta">
+            <div class="meta-block">
+              <span class="meta-label">SYS.OK // ORBIT 01</span>
+              <span class="meta-value" id="hero-role">CSE @ MIT MANIPAL &bull; ADCS ENGINEER</span>
+            </div>
+            <div class="meta-block meta-block--right">
+              <span class="meta-label">INTERACTIVE 3D SPACECRAFT</span>
+              <span class="meta-value" id="hero-sat-hint">(Click satellite to Ping Telemetry)</span>
+            </div>
+          </div>
+
+          <div class="hero-center-spacer"></div>
+
+          <div class="hero-bottom">
+            <h1 class="hero-wordmark" id="hero-wordmark" aria-label="RUSHIL">RUSHIL</h1>
+            <div class="hero-subbar">
+              <p class="hero-tagline" id="hero-tagline">
+                Building attitude control systems for Low Earth Orbit &amp; salvaging silicon on the ground.
+              </p>
+              <a href="#about" class="scroll-prompt" data-cursor="SCROLL">
+                <span>(Scroll, gently)</span>
+                <span class="scroll-arrow" aria-hidden="true">&darr;</span>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- KINETIC MARQUEE STRIP 01 -->
+        <div class="marquee-strip" aria-hidden="true">
+          <div class="marquee-track" id="marquee-track-1"></div>
+        </div>
+
+        <!-- 01 // ABOUT / EDITORIAL MANIFESTO -->
+        <section id="about" class="section section--about" data-section="01">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-index">01 // TELEMETRY &amp; ORIGIN</span>
+              <span class="section-paren">(Who is driving this spacecraft?)</span>
+            </div>
+
+            <div class="about-editorial" id="about-scrub-text">
+              <!-- Populated from CONFIG.bio with word-level scroll illumination -->
+            </div>
+
+            <div class="about-dossier" id="about-dossier">
+              <!-- Populated from CONFIG.dossier -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 02 // SELECTED PROJECTS (Architectural Index + Floating Cursor Preview) -->
+        <section id="work" class="section section--work" data-section="02">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-index">02 // SELECTED SYSTEMS</span>
+              <span class="section-paren">(Click row to inspect telemetry &amp; architecture)</span>
+            </div>
+
+            <h2 class="display-title">ENGINEERED ARTIFACTS</h2>
+
+            <div class="project-index" id="project-index" role="list">
+              <!-- Populated from CONFIG.projects -->
+            </div>
+          </div>
+        </section>
+
+        <!-- Floating Hover Preview Card for Projects -->
+        <div id="project-hover-preview" aria-hidden="true">
+          <div class="preview-inner">
+            <canvas id="preview-canvas" width="480" height="300"></canvas>
+            <div class="preview-meta">
+              <span id="preview-tag">SYS.01</span>
+              <span id="preview-year">2026</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 03 // COLLEGE LIFE & EXPERIENCES (Pinned Horizontal Drag/Scroll Gallery) -->
+        <section id="gallery" class="section section--gallery" data-section="03">
+          <div class="gallery-pin-wrap">
+            <div class="container gallery-head-container">
+              <div class="section-header">
+                <span class="section-index">03 // FIELD ARCHIVE</span>
+                <span class="section-paren">(Drag horizontally or scroll &mdash; click frame to expand)</span>
+              </div>
+              <div class="gallery-title-row">
+                <h2 class="display-title">MANIPAL &amp; BEYOND</h2>
+                <span class="mono-pill">OPTICAL LOG // 13.3525&deg; N, 74.7928&deg; E</span>
+              </div>
+            </div>
+
+            <div class="gallery-viewport" id="gallery-viewport" data-cursor="DRAG">
+              <div class="gallery-track" id="gallery-track">
+                <!-- Populated from CONFIG.photos -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 04 // SKILLS & TOOLS (Typographic Spec Sheet & Kinetic Streams) -->
+        <section id="skills" class="section section--skills" data-section="04">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-index">04 // CAPABILITY MATRIX</span>
+              <span class="section-paren">(Zero filler icons. Pure operational stack.)</span>
+            </div>
+
+            <h2 class="display-title">INSTRUMENTS &amp; CODE</h2>
+          </div>
+
+          <div class="skills-kinetic-wrap" aria-hidden="true">
+            <div class="skills-stream skills-stream--left" id="skills-stream-1"></div>
+            <div class="skills-stream skills-stream--right" id="skills-stream-2"></div>
+          </div>
+
+          <div class="container">
+            <div class="skills-spec-grid" id="skills-spec-grid">
+              <!-- Populated from CONFIG.skillsCategories -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 05 // RANDOM FACTS / SYSTEM ANOMALIES -->
+        <section id="facts" class="section section--facts" data-section="05">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-index">05 // UNCLASSIFIED ANOMALIES</span>
+              <span class="section-paren">(Things that didn't fit on the academic transcript)</span>
+            </div>
+
+            <h2 class="display-title">HUMAN TELEMETRY</h2>
+
+            <div class="facts-grid" id="facts-grid">
+              <!-- Populated from CONFIG.funFacts -->
+            </div>
+          </div>
+        </section>
+
+        <!-- 06 // GUESTBOOK & ODOMETER -->
+        <section id="guestbook" class="section section--guestbook" data-section="06">
+          <div class="container">
+            <div class="section-header">
+              <span class="section-index">06 // ORBITAL COMMS LOG</span>
+              <span class="section-paren">(Leave a transmission in non-volatile browser memory)</span>
+            </div>
+
+            <div class="guestbook-layout">
+              <div class="guestbook-left">
+                <h2 class="display-title">SIGN THE LOGBOOK</h2>
+                <p class="guestbook-lead">
+                  Every great year-2000 corner of the web had a guestbook and an odometer. Leave your callsign before the satellite passes over the horizon.
+                </p>
+
+                <!-- Retro Odometer Visitor Counter -->
+                <div class="odometer-box">
+                  <span class="odometer-label">ORBITAL PASSES RECORDED //</span>
+                  <div class="odometer-digits" id="odometer-digits" aria-label="Visitor count"></div>
+                </div>
+
+                <form id="guestbook-form" class="glass-panel guestbook-form" autocomplete="off">
+                  <div class="form-row">
+                    <div class="input-group">
+                      <label for="gb-name">CALLSIGN / NAME</label>
+                      <input type="text" id="gb-name" required maxlength="32" placeholder="e.g. Kalpana_99" />
+                    </div>
+                    <div class="input-group">
+                      <label for="gb-origin">SECTOR / LOCATION</label>
+                      <input type="text" id="gb-origin" maxlength="32" placeholder="e.g. Manipal / LEO" />
+                    </div>
+                  </div>
+                  <div class="input-group">
+                    <label for="gb-msg">TRANSMISSION PAYLOAD</label>
+                    <input type="text" id="gb-msg" required maxlength="140" placeholder="Drop a note, a satellite joke, or a hiring ping..." />
+                  </div>
+                  <button type="submit" class="gel-pill gel-pill--primary" data-cursor="TRANSMIT">
+                    <span class="pill-dot" aria-hidden="true"></span> TRANSMIT PACKET
+                  </button>
+                </form>
+              </div>
+
+              <div class="guestbook-right">
+                <div class="glass-panel guestbook-feed-panel">
+                  <div class="panel-top-bar">
+                    <span class="mono-tag">RECENT DOWNLINKS // LOCALSTORAGE.DB</span>
+                    <span class="mono-tag" id="gb-count-tag">04 ENTRIES</span>
+                  </div>
+                  <div class="guestbook-entries" id="guestbook-entries" aria-live="polite">
+                    <!-- Populated from localStorage + CONFIG.guestbookSeed -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 07 // CLOSING "LET'S TALK" SECTION -->
+        <section id="contact" class="section section--contact" data-section="07">
+          <div class="contact-grain" aria-hidden="true"></div>
+
+          <div class="container contact-shell">
+            <!-- Top-left index & kicker -->
+            <div class="contact-top">
+              <span class="section-index">07 // GROUND STATION DOWNLINK</span>
+              <p class="contact-kicker">GOT SOMETHING IN MIND?</p>
+            </div>
+
+            <!-- Center full-width LET'S TALK -->
+            <div class="lets-talk-stage" id="lets-talk-stage">
+              <a href="#" id="lets-talk-cta" class="lets-talk-cta" data-cursor="SAY HI" aria-label="Let's Talk — copy email address and open mail client">
+                <span class="lt-measure" id="lt-measure">
+                  <span class="lt-line" id="lt-line-1" aria-hidden="true"></span>
+                  <span class="lt-space" id="lt-space" aria-hidden="true">&nbsp;</span>
+                  <span class="lt-line" id="lt-line-2" aria-hidden="true"></span>
+                </span>
+              </a>
+            </div>
+
+            <!-- Bottom thin mono row + subtle copyright/Konami subline -->
+            <div class="contact-bottom-wrap">
+              <div class="contact-bottom-row">
+                <div class="cb-cell cb-cell--email">
+                  <button type="button" id="footer-email-copy" class="cb-link cb-link--bright" data-cursor="COPY EMAIL">
+                    <!-- Populated from CONFIG.email -->
+                  </button>
+                </div>
+
+                <div class="cb-cell cb-cell--socials" id="footer-social-links">
+                  <!-- Populated with LinkedIn and GitHub from CONFIG.links -->
+                </div>
+
+                <div class="cb-cell cb-cell--clock">
+                  <span id="contact-clock">MANIPAL --:--</span>
+                </div>
+
+                <div class="cb-cell cb-cell--top">
+                  <button type="button" id="btn-back-to-top" class="cb-link cb-link--bright" data-cursor="TOP">
+                    BACK TO TOP &uarr;
+                  </button>
+                </div>
+              </div>
+
+              <div class="contact-subfooter">
+                <span id="footer-copy">RUSHIL JINDAL &copy; 2000&ndash;2026</span>
+                <span class="konami-hint" data-cursor="SECRET">TRY KONAMI: &uarr;&uarr;&darr;&darr;&larr;&rarr;&larr;&rarr;BA</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- =====================================================================
+        PROJECT DETAIL FULL-SCREEN DRAWER / MODAL
+        ===================================================================== -->
+    <div id="project-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-glass-sheet" tabindex="-1">
+        <div class="modal-top-bar">
+          <span class="mono-tag" id="modal-index">PROJECT // 01</span>
+          <button type="button" id="modal-close" class="hud-btn" data-cursor="CLOSE">[ CLOSE ESC ]</button>
+        </div>
+        <div class="modal-body">
+          <div class="modal-visual">
+            <canvas id="modal-canvas" width="800" height="460" role="img" aria-label="Project architectural schematic"></canvas>
+          </div>
+          <div class="modal-content">
+            <div class="modal-tags" id="modal-tags"></div>
+            <h3 class="modal-title" id="modal-title"></h3>
+            <p class="modal-desc" id="modal-desc"></p>
+            <div class="modal-architecture" id="modal-arch"></div>
+            <div class="modal-actions">
+              <a href="#" id="modal-link" target="_blank" rel="noopener" class="gel-pill gel-pill--primary" data-cursor="OPEN">
+                <span class="pill-dot" aria-hidden="true"></span> INSPECT REPOSITORY / LIVE
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+        PHOTO GALLERY LIGHTBOX
+        ===================================================================== -->
+    <div id="lightbox-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+      <div class="lightbox-sheet" tabindex="-1">
+        <div class="modal-top-bar">
+          <span class="mono-tag" id="lightbox-meta">DSC_0001.RAW</span>
+          <button type="button" id="lightbox-close" class="hud-btn" data-cursor="CLOSE">[ CLOSE ESC ]</button>
+        </div>
+        <div class="lightbox-media-wrap" id="lightbox-media-wrap"></div>
+        <div class="lightbox-caption-bar">
+          <p id="lightbox-caption"></p>
+          <span id="lightbox-date" class="mono-tag"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================================
+        LIBS (Lenis Smooth Scroll + GSAP & ScrollTrigger) & MAIN SCRIPT
+        ===================================================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script type="module" src="script.js"></script>
+  </body>
+  </html>
