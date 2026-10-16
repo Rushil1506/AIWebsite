@@ -54,67 +54,123 @@ const CONFIG = {
     "WESTERN GHATS TREKKER"
   ],
 
-  // Selected Projects (numbered architectural index)
+  // Selected Projects (curated portfolio index — edit project details, links & visual modes here)
   projects: [
     {
       id: "01",
-      name: "Parikshit 2U CubeSat ADCS",
-      summary: "Flight software, QUEST/MEKF attitude estimation & B-dot magnetorquer control for a 600 km LEO electrodynamic tether mission.",
-      architecture: "Fuses RM3100 magnetometer, BMI088 IMU, and 12x SLCD-61N8 coarse sun sensors across 6 faces to maintain 10–15° tether pointing without reaction wheels.",
-      tech: ["C / C++", "Python", "QUEST / MEKF", "Embedded", "Orbital Mechanics"],
+      title: "Parikshit 2U CubeSat ADCS",
+      shortDescription:
+        "Flight software, QUEST/MEKF attitude estimation & B-dot magnetorquer control for a 600 km LEO electrodynamic tether mission.",
+      detailedDescription:
+        "Fuses RM3100 magnetometer, BMI088 IMU, and 12x SLCD-61N8 coarse sun sensors across 6 faces to maintain 10–15° tether pointing without reaction wheels.",
+      technologies: ["C / C++", "Python", "QUEST / MEKF", "Embedded", "Orbital Mechanics"],
       year: "2025—26",
       link: "https://parikshitspace.in",
-      accent: "#00e5ff"
+      accent: "#00e5ff",
+      visualType: "orbital",
+      animationType: "attitude-bdot"
     },
     {
       id: "02",
-      name: "CAN-7USAT & Ground Station",
-      summary: "IN-SPACe CanSat flight avionics, mechanical flywheel stabilization, and real-time PyQt5 Ground Control Station.",
-      architecture: "Engineered full PDR-to-CDR telemetry pipeline with live 3D orientation visualization, packet loss recovery, and descent rate analytics.",
-      tech: ["Python", "PyQt5", "Embedded C", "RF Telemetry", "Sensor Fusion"],
+      title: "CAN-7USAT & Ground Station",
+      shortDescription:
+        "IN-SPACe CanSat flight avionics, mechanical flywheel stabilization, and real-time PyQt5 Ground Control Station.",
+      detailedDescription:
+        "Engineered full PDR-to-CDR telemetry pipeline with live 3D orientation visualization, packet loss recovery, and descent rate analytics.",
+      technologies: ["Python", "PyQt5", "Embedded C", "RF Telemetry", "Sensor Fusion"],
       year: "2026",
-      link: "https://github.com",
-      accent: "#c6ff00"
+      link: "", // Flagged for review: replace with specific repository URL when public
+      accent: "#c6ff00",
+      visualType: "descent",
+      animationType: "trajectory-guidance"
     },
     {
       id: "03",
-      name: "EdgeNILM Disaggregation",
-      summary: "Non-intrusive appliance load monitoring running real-time energy disaggregation on low-power edge hardware.",
-      architecture: "Built for Smart India Hackathon: extracts harmonic current signatures at the smart-meter edge to identify individual appliances without plug-level sensors.",
-      tech: ["Edge AI", "Python", "DSP", "Embedded Linux", "Time-Series"],
+      title: "Parikshit Orbital Web Portal",
+      shortDescription:
+        "Interactive 3D satellite showcase and dark-mode engineering portal for MIT Manipal's student satellite team.",
+      detailedDescription:
+        "Rebuilt parikshitspace.in from scratch using Vite, React, Three.js, and hardware-accelerated scroll choreography.",
+      technologies: ["Three.js", "React", "Vite", "GSAP", "WebGL"],
       year: "2026",
-      link: "https://github.com",
-      accent: "#ff2a85"
+      link: "https://parikshitspace.in",
+      accent: "#00e5ff",
+      visualType: "web",
+      animationType: "dom-webgl-layers"
     },
     {
       id: "04",
-      name: "Parameterized SPI Controller IP",
-      summary: "Synthesizable Master/Slave RTL bus architecture with runtime-configurable CPOL, CPHA, and word length.",
-      architecture: "Designed and verified in Verilog HDL for CES 2112 Digital Systems Lab with deterministic state machines and full testbench coverage.",
-      tech: ["Verilog HDL", "RTL Design", "FPGA", "Digital Systems"],
+      title: "EdgeNILM Disaggregation",
+      shortDescription:
+        "Non-intrusive appliance load monitoring running real-time energy disaggregation on low-power edge hardware.",
+      detailedDescription:
+        "Built for Smart India Hackathon: extracts harmonic current signatures at the smart-meter edge to identify individual appliances without plug-level sensors.",
+      technologies: ["Edge AI", "Python", "DSP", "Embedded Linux", "Time-Series"],
       year: "2026",
-      link: "https://github.com",
-      accent: "#00e5ff"
+      link: "", // Flagged for review: replace with specific repository URL when public
+      accent: "#ff2a85",
+      visualType: "ml",
+      animationType: "harmonic-inference"
+    }
+  ],
+
+  // 01.5 // Closed-Loop Flight Sequence Stages (Orbit -> Attitude -> Sensors -> Estimation -> Control -> Descent -> Landing)
+  missionStoryStages: [
+    {
+      code: "STAGE 01 // 07",
+      metric: "ALT: 600.0 KM",
+      title: "ORBITAL INSERTION",
+      desc: "The spacecraft settles into low Earth orbit. Attitude knowledge begins with inertial measurements and a geomagnetic reference, not a guessed orientation.",
+      eq: "ṙ = v  ·  q̇ = ½ Ω(ω)q",
+      hud: "ORBIT // INITIAL CONDITIONS (ILLUSTRATIVE SIM)"
     },
     {
-      id: "05",
-      name: "Parikshit Orbital Web Portal",
-      summary: "Interactive 3D satellite showcase and dark-mode engineering portal for MIT Manipal's student satellite team.",
-      architecture: "Rebuilt parikshitspace.in from scratch using Vite, React, Three.js, and hardware-accelerated scroll choreography.",
-      tech: ["Three.js", "React", "Vite", "GSAP", "WebGL"],
-      year: "2026",
-      link: "https://parikshitspace.in",
-      accent: "#c6ff00"
+      code: "STAGE 02 // 07",
+      metric: "SENSORS: NOMINAL",
+      title: "SENSE THE FIELD",
+      desc: "RM3100 magnetometer, BMI088 IMU, and 12x SLCD-61N8 coarse sun sensors provide complementary body-frame measurements reconciled across timestamps.",
+      eq: "z = h(x) + ν",
+      hud: "SENSOR FUSION // RM3100 + BMI088 + 12x CSS"
     },
     {
-      id: "06",
-      name: "Salvaged Silicon Hardware Lab",
-      summary: "Headless Linux edge server on a broken-screen Galaxy C9 Pro & standalone monitor from a salvaged laptop LVDS panel.",
-      architecture: "Rooted Android-to-Linux chroot node over ADB/USB networking + custom controller board driving an AU Optronics B156XTN07.1 panel.",
-      tech: ["Linux Kernel", "Raspberry Pi", "Hardware Hacking", "Bash"],
-      year: "2025—26",
-      link: "https://github.com",
-      accent: "#ff2a85"
+      code: "STAGE 03 // 07",
+      metric: "ATTITUDE: ESTIMATED",
+      title: "ESTIMATE ATTITUDE",
+      desc: "QUEST computes a single-frame attitude quaternion while a multiplicative EKF propagates gyro kinematics and corrects bias drift.",
+      eq: "q̂ ← MEKF(ω, z, q̂⁻)",
+      hud: "ATTITUDE DETERMINATION // QUEST & MEKF"
+    },
+    {
+      code: "STAGE 04 // 07",
+      metric: "CONTROL: B-DOT",
+      title: "DAMP ROTATION",
+      desc: "Without reaction wheels, 3-axis magnetorquers interact with Earth's B-field via B-dot control to detumble and maintain 10–15° tether pointing.",
+      eq: "m = −k · Ḃ  ·  τ = m × B",
+      hud: "MAGNETIC ACTUATION // B-DOT DETUMBLING"
+    },
+    {
+      code: "STAGE 05 // 07",
+      metric: "TELEMETRY: LINKED",
+      title: "DOWNLINK THE STATE",
+      desc: "Orientation, angular rates, and subsystem health are packetized for the PyQt5 Ground Control Station with packet-loss recovery.",
+      eq: "packet = header + state + CRC",
+      hud: "RF TELEMETRY // GROUND STATION LINK"
+    },
+    {
+      code: "STAGE 06 // 07",
+      metric: "DESCENT: TRACKED",
+      title: "MODEL THE DESCENT",
+      desc: "During CanSat atmospheric descent, mechanical flywheel stabilization and descent-rate analytics track altitude and projected glide footprint.",
+      eq: "t₍ground₎ = h / v₍descent₎",
+      hud: "CANSAT // DESCENT RATE & STABILIZATION"
+    },
+    {
+      code: "STAGE 07 // 07",
+      metric: "MISSION: COMPLETE",
+      title: "CLOSE THE LOOP",
+      desc: "From 600 km orbital attitude estimation to ground-station telemetry verification, every control action is logged against physical models.",
+      eq: "e = x₍target₎ − x₍estimated₎",
+      hud: "MISSION REVIEW // TELEMETRY VERIFIED"
     }
   ],
 
@@ -282,6 +338,169 @@ import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js"
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
 const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+const coarsePointerQuery = window.matchMedia("(pointer: coarse)");
+
+/**
+ * Centralized Motion System Constants & Physics Presets
+ */
+const MOTION = {
+  springs: {
+    cursorRing: { stiffness: 260, damping: 22, mass: 0.85, precision: 0.05 },
+    projectPreview: { stiffness: 200, damping: 18, mass: 1.0, precision: 0.04 },
+    projectPreviewTilt: { stiffness: 170, damping: 16, mass: 0.85, precision: 0.02 },
+    projectPreviewScale: { stiffness: 230, damping: 20, mass: 0.9, precision: 0.002 },
+    letsTalkChar: { stiffness: 210, damping: 17, mass: 1.0, precision: 0.03 },
+    letsTalkDeform: { stiffness: 185, damping: 15, mass: 0.9, precision: 0.01 },
+    magnetic: { stiffness: 215, damping: 17, mass: 0.85, precision: 0.03 }
+  },
+  easings: {
+    expoOut: "expo.out",
+    power3Out: "power3.out",
+    power2Out: "power2.out"
+  },
+  durations: {
+    heroReveal: 1.3,
+    sectionTitle: 0.95,
+    cardReveal: 0.72,
+    hoverTransition: 0.32
+  },
+  scroll: {
+    lenisDuration: 1.15,
+    gallerySkewDivisor: -360,
+    gallerySkewMax: 4.5,
+    aboutVelocitySkewMax: 2.2,
+    parallax: {
+      bgCoordsY: -46,
+      sectionFrameY: 18
+    }
+  }
+};
+
+/**
+ * Reusable 1D damped spring with velocity preservation and sub-stepped stability.
+ * Matches conceptual API: `const x = useSpring(0, { stiffness: 200, damping: 18, mass: 1 })`
+ */
+class SpringValue {
+  constructor(initial = 0, opts = {}) {
+    this.value = initial;
+    this.target = initial;
+    this.velocity = 0;
+    this.stiffness = opts.stiffness ?? 200;
+    this.damping = opts.damping ?? 18;
+    this.mass = Math.max(0.05, opts.mass ?? 1);
+    this.precision = opts.precision ?? 0.01;
+  }
+
+  set(nextTarget) {
+    if (!Number.isFinite(nextTarget)) return;
+    this.target = nextTarget;
+  }
+
+  snap(nextValue) {
+    if (!Number.isFinite(nextValue)) return;
+    this.value = nextValue;
+    this.target = nextValue;
+    this.velocity = 0;
+  }
+
+  impulse(deltaVelocity) {
+    if (!Number.isFinite(deltaVelocity)) return;
+    this.velocity += deltaVelocity;
+  }
+
+  get() {
+    return this.value;
+  }
+
+  getVelocity() {
+    return this.velocity;
+  }
+
+  isAtRest() {
+    return (
+      Math.abs(this.target - this.value) <= this.precision &&
+      Math.abs(this.velocity) <= this.precision * 6
+    );
+  }
+
+  step(dt, reducedMotion = false) {
+    if (reducedMotion) {
+      this.value += (this.target - this.value) * Math.min(1, dt * 18);
+      this.velocity = 0;
+      if (Math.abs(this.target - this.value) <= this.precision) {
+        this.value = this.target;
+      }
+      return this.value;
+    }
+
+    if (this.isAtRest()) {
+      this.value = this.target;
+      this.velocity = 0;
+      return this.value;
+    }
+
+    // Clamp & sub-step dt for unconditional numerical stability at any frame rate
+    const clampedDt = Math.min(0.05, Math.max(0.001, dt));
+    const steps = clampedDt > 0.018 ? 2 : 1;
+    const stepDt = clampedDt / steps;
+
+    for (let i = 0; i < steps; i++) {
+      const displacement = this.target - this.value;
+      const springForce = this.stiffness * displacement;
+      const dampingForce = -this.damping * this.velocity;
+      const acceleration = (springForce + dampingForce) / this.mass;
+      this.velocity += acceleration * stepDt;
+      this.value += this.velocity * stepDt;
+    }
+
+    if (this.isAtRest()) {
+      this.value = this.target;
+      this.velocity = 0;
+    }
+    return this.value;
+  }
+}
+
+class Spring2D {
+  constructor(initialX = 0, initialY = 0, opts = {}) {
+    this.x = new SpringValue(initialX, opts);
+    this.y = new SpringValue(initialY, opts);
+  }
+
+  set(targetX, targetY) {
+    this.x.set(targetX);
+    this.y.set(targetY);
+  }
+
+  snap(valX, valY) {
+    this.x.snap(valX);
+    this.y.snap(valY);
+  }
+
+  impulse(vx, vy) {
+    this.x.impulse(vx);
+    this.y.impulse(vy);
+  }
+
+  isAtRest() {
+    return this.x.isAtRest() && this.y.isAtRest();
+  }
+
+  step(dt, reducedMotion = false) {
+    this.x.step(dt, reducedMotion);
+    this.y.step(dt, reducedMotion);
+    return {
+      x: this.x.value,
+      y: this.y.value,
+      vx: this.x.velocity,
+      vy: this.y.velocity
+    };
+  }
+}
+
+function useSpring(initial = 0, opts = {}) {
+  return new SpringValue(initial, opts);
+}
 
 const STATE = {
   bootActive: true,
@@ -289,6 +508,7 @@ const STATE = {
   tabHidden: document.hidden,
   soundEnabled: false,
   reducedMotion: reducedMotionQuery.matches,
+  isCoarsePointer: coarsePointerQuery.matches,
   overdrive: false,
   scrollProgress: 0,
   scrollVelocity: 0,
@@ -298,10 +518,21 @@ const STATE = {
   targetMouseY: 0,
   pointerClientX: window.innerWidth / 2,
   pointerClientY: window.innerHeight / 2,
+  pointerVelocityX: 0,
+  pointerVelocityY: 0,
+  activeProjectIndex: 0,
+  hoveredProjectIndex: -1,
   satellitePingCount: 0,
   lenis: null,
-  lastFocusedElement: null
+  lastFocusedElement: null,
+  motionChangeCallbacks: []
 };
+
+function onMotionPreferenceChange(cb) {
+  if (typeof cb === "function") {
+    STATE.motionChangeCallbacks.push(cb);
+  }
+}
 
 // Safe localStorage wrapper with in-memory fallback (prevents crashes in private browsing or file://)
 const memoryStore = new Map();
@@ -326,6 +557,13 @@ const SafeStorage = {
 
 function syncReducedMotionClass() {
   document.body.classList.toggle("reduced-motion", STATE.reducedMotion);
+  STATE.motionChangeCallbacks.forEach((cb) => {
+    try {
+      cb(STATE.reducedMotion);
+    } catch {
+      // ignore listener error
+    }
+  });
 }
 syncReducedMotionClass();
 
@@ -333,6 +571,10 @@ reducedMotionQuery.addEventListener("change", (e) => {
   STATE.reducedMotion = e.matches;
   syncReducedMotionClass();
   updateHudButtons();
+});
+
+coarsePointerQuery.addEventListener("change", (e) => {
+  STATE.isCoarsePointer = e.matches;
 });
 
 document.addEventListener("visibilitychange", () => {
@@ -455,7 +697,65 @@ const SFX = new SoundEngine();
  * 03 // POPULATE DOM FROM CONFIG & AUTO-FIT HERO / LET'S TALK TYPOGRAPHY
  * ============================================================================
  */
+/**
+ * Normalizes a project entry so edits using either the new schema
+ * (title, shortDescription, detailedDescription, technologies, visualType, animationType)
+ * or legacy aliases (name, summary, architecture, tech) always stay in sync.
+ */
+function normalizeProject(raw, index = 0) {
+  const id = String(raw.id || index + 1).padStart(2, "0");
+  const title = raw.title || raw.name || `System ${id}`;
+  const shortDescription = raw.shortDescription || raw.summary || "";
+  const detailedDescription = raw.detailedDescription || raw.architecture || "";
+  const technologies = Array.isArray(raw.technologies)
+    ? raw.technologies
+    : Array.isArray(raw.tech)
+      ? raw.tech
+      : [];
+  const year = raw.year || "2026";
+  const link = typeof raw.link === "string" ? raw.link.trim() : "";
+  const accent = raw.accent || "#00e5ff";
+  const visualType = (raw.visualType || "").toLowerCase() || inferVisualType(title, id);
+  const animationType = raw.animationType || `${visualType}-sim`;
+
+  return Object.assign(raw, {
+    id,
+    title,
+    name: title,
+    shortDescription,
+    summary: shortDescription,
+    detailedDescription,
+    architecture: detailedDescription,
+    technologies,
+    tech: technologies,
+    year,
+    link,
+    accent,
+    visualType,
+    animationType
+  });
+}
+
+function inferVisualType(title = "", id = "") {
+  if (/ADCS|CubeSat/i.test(title) || id === "01") return "orbital";
+  if (/CAN|Descent|Ground Station/i.test(title) || id === "02") return "descent";
+  if (/Portal|Web/i.test(title)) return "web";
+  if (/NILM|Disaggregation|AI|ML/i.test(title)) return "ml";
+  return "hardware";
+}
+
+function isVerifiedExternalLink(url) {
+  if (!url || typeof url !== "string") return false;
+  const trimmed = url.trim();
+  if (!trimmed || trimmed === "#") return false;
+  // Reject bare placeholder domain roots such as "https://github.com" or "https://linkedin.com"
+  if (/^https?:\/\/(www\.)?(github|linkedin)\.com\/?$/i.test(trimmed)) return false;
+  return /^https?:\/\//i.test(trimmed);
+}
+
 function hydrateContent() {
+  CONFIG.projects = (CONFIG.projects || []).map((p, idx) => normalizeProject(p, idx));
+
   document.getElementById("hud-name").textContent = CONFIG.name;
   document.getElementById("hero-role").textContent = CONFIG.roleBadge;
   const wordmarkEl = document.getElementById("hero-wordmark");
@@ -490,10 +790,10 @@ function hydrateContent() {
     .replace(/\./g, "<wbr>.");
   footerEmailBtn.setAttribute("aria-label", `Copy email address ${CONFIG.email}`);
 
-  // Bottom row LinkedIn & GitHub text links pulled from CONFIG.links
+  // Bottom row social links pulled from CONFIG.links
   const socialContainer = document.getElementById("footer-social-links");
   const targetSocials = CONFIG.links.filter((l) =>
-    /linkedin|github/i.test(l.label)
+    /linkedin|github|parikshit/i.test(l.label)
   );
   socialContainer.innerHTML = targetSocials
     .map(
@@ -556,19 +856,35 @@ function hydrateContent() {
   projContainer.innerHTML = CONFIG.projects
     .map(
       (p, idx) => `
-      <article class="project-row" role="listitem" tabindex="0" data-index="${idx}" data-cursor="INSPECT" aria-label="${escapeHtml(p.name)} — ${escapeHtml(p.summary)}">
+      <article class="project-row${idx === 0 ? " is-dominant" : ""}" role="listitem" tabindex="0" data-index="${idx}" data-visual-type="${escapeHtml(p.visualType)}" style="--row-accent: ${escapeHtml(p.accent)}" data-cursor="INSPECT" aria-label="${escapeHtml(p.title)} — ${escapeHtml(p.shortDescription)}">
         <span class="proj-num">${escapeHtml(p.id)} //</span>
         <div>
-          <h3 class="proj-name">${escapeHtml(p.name)}</h3>
+          <h3 class="proj-name">${escapeHtml(p.title)}</h3>
           <div class="proj-tech">
-            ${p.tech.map((t) => `<span class="tech-chip">${escapeHtml(t)}</span>`).join("")}
+            ${p.technologies.map((t) => `<span class="tech-chip">${escapeHtml(t)}</span>`).join("")}
           </div>
         </div>
-        <p class="proj-summary">${escapeHtml(p.summary)}</p>
-        <span class="proj-year">(${escapeHtml(p.year)})</span>
+        <p class="proj-summary">${escapeHtml(p.shortDescription)}</p>
+        <div class="proj-meta-right">
+          <span class="proj-year">(${escapeHtml(p.year)})</span>
+          <span class="proj-sim-badge">${escapeHtml(projectMode(p))}</span>
+        </div>
       </article>`
     )
     .join("");
+
+  // Initialize active project indicator & mobile stage from first curated project
+  if (CONFIG.projects.length > 0) {
+    const firstProj = CONFIG.projects[0];
+    const activeNameEl = document.getElementById("work-active-name");
+    const mobileTagEl = document.getElementById("mobile-stage-tag");
+    const mobileModeEl = document.getElementById("mobile-stage-mode");
+    const mobileCanvasEl = document.getElementById("mobile-work-canvas");
+    if (activeNameEl) activeNameEl.textContent = `${firstProj.id}. ${firstProj.title.toUpperCase()}`;
+    if (mobileTagEl) mobileTagEl.textContent = `LIVE SIMULATION // ${firstProj.id}`;
+    if (mobileModeEl) mobileModeEl.textContent = `MODE: ${projectMode(firstProj)}`;
+    if (mobileCanvasEl) drawProjectSchematic(mobileCanvasEl, firstProj);
+  }
 
   // 03 // College Life Photo Gallery
   const galleryTrack = document.getElementById("gallery-track");
@@ -697,6 +1013,7 @@ function fitLetsTalk() {
       }
     });
   }
+  window.dispatchEvent(new CustomEvent("letsTalkLayoutUpdated"));
 }
 
 function createFallbackPhotoCanvas(photo, index) {
@@ -1544,8 +1861,13 @@ function initScrollAndMotion() {
     });
   }
 
-  // Word-by-word illumination on the About editorial manifesto
+  // Word-by-word illumination + subtle scroll-velocity response on the About editorial manifesto
+  const aboutScrubEl = document.getElementById("about-scrub-text");
   const scrubWords = gsap.utils.toArray(".scrub-word");
+  const setAboutSkew = aboutScrubEl
+    ? gsap.quickTo(aboutScrubEl, "skewY", { duration: 0.35, ease: "power3.out" })
+    : null;
+
   ScrollTrigger.create({
     trigger: "#about-scrub-text",
     start: "top 82%",
@@ -1556,21 +1878,35 @@ function initScrollAndMotion() {
       scrubWords.forEach((word, i) => {
         word.classList.toggle("is-lit", i <= litCount);
       });
+      if (setAboutSkew) {
+        if (STATE.reducedMotion) {
+          setAboutSkew(0);
+        } else {
+          const velSkew = THREE.MathUtils.clamp(self.getVelocity() / -1800, -1.6, 1.6);
+          setAboutSkew(velSkew);
+        }
+      }
+    },
+    onLeave: () => {
+      if (setAboutSkew) setAboutSkew(0);
+    },
+    onLeaveBack: () => {
+      if (setAboutSkew) setAboutSkew(0);
     }
   });
 
   gsap.utils.toArray(".display-title").forEach((title) => {
     gsap.fromTo(
       title,
-      { y: 50, opacity: 0 },
+      { y: 46, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 1,
+        duration: 0.95,
         ease: "expo.out",
         scrollTrigger: {
           trigger: title,
-          start: "top 85%"
+          start: "top 86%"
         }
       }
     );
@@ -1580,6 +1916,10 @@ function initScrollAndMotion() {
   const galleryTrack = document.getElementById("gallery-track");
   const gallerySection = document.getElementById("gallery");
   const viewport = document.getElementById("gallery-viewport");
+  const photoCards = gsap.utils.toArray(".photo-card");
+  const photoSkewSetters = photoCards.map((card) =>
+    gsap.quickTo(card, "skewX", { duration: 0.32, ease: "power2.out" })
+  );
 
   const getScrollAmount = () =>
     -Math.max(0, galleryTrack.scrollWidth - window.innerWidth + 96);
@@ -1595,14 +1935,15 @@ function initScrollAndMotion() {
       scrub: 1,
       invalidateOnRefresh: true,
       onUpdate: (self) => {
-        if (STATE.reducedMotion) return;
+        if (STATE.reducedMotion) {
+          photoSkewSetters.forEach((setSkew) => setSkew(0));
+          return;
+        }
         const skew = THREE.MathUtils.clamp(self.getVelocity() / -350, -5, 5);
-        gsap.to(".photo-card", {
-          skewX: skew,
-          duration: 0.35,
-          ease: "power2.out",
-          overwrite: "auto"
-        });
+        photoSkewSetters.forEach((setSkew) => setSkew(skew));
+      },
+      onScrubComplete: () => {
+        photoSkewSetters.forEach((setSkew) => setSkew(0));
       }
     }
   });
@@ -1686,20 +2027,21 @@ function initScrollAndMotion() {
     }
   });
 
-  // Staggered character slide-up reveal for "LET'S TALK" on scroll into view
-  const ltChars = gsap.utils.toArray("#lets-talk-cta .lt-char");
-  if (ltChars.length > 0) {
+  // Staggered character slide-up reveal for "LET'S TALK" on scroll into view (targets outer .lt-char-wrap so inner .lt-char is reserved for spring physics)
+  const ltCharWraps = gsap.utils.toArray("#lets-talk-cta .lt-char-wrap");
+  if (ltCharWraps.length > 0) {
     gsap.fromTo(
-      ltChars,
-      { yPercent: 115 },
+      ltCharWraps,
+      { yPercent: 110, opacity: 0 },
       {
         yPercent: 0,
+        opacity: 1,
         duration: 0.95,
-        stagger: 0.045,
+        stagger: 0.042,
         ease: "expo.out",
         scrollTrigger: {
           trigger: "#lets-talk-stage",
-          start: "top 82%",
+          start: "top 84%",
           toggleActions: "play none none reverse"
         }
       }
@@ -1712,27 +2054,88 @@ function initScrollAndMotion() {
  * 07 // CUSTOM CURSOR, SPARKLE TRAIL, CURSOR TOAST & ACCESSIBLE MODALS
  * ============================================================================
  */
+let activeModalProject = null;
+
+function setDominantProject(index, source = "scroll") {
+  const idx = Math.max(0, Math.min(CONFIG.projects.length - 1, Number(index) || 0));
+  STATE.activeProjectIndex = idx;
+  const proj = CONFIG.projects[idx];
+  if (!proj) return;
+
+  const rows = document.querySelectorAll(".project-row");
+  rows.forEach((r, i) => {
+    r.classList.toggle("is-dominant", i === idx);
+  });
+
+  const activeName = document.getElementById("work-active-name");
+  if (activeName) activeName.textContent = `${proj.id}. ${proj.title.toUpperCase()}`;
+
+  const mobileTag = document.getElementById("mobile-stage-tag");
+  const mobileMode = document.getElementById("mobile-stage-mode");
+  const mobileCanvas = document.getElementById("mobile-work-canvas");
+  if (mobileTag) mobileTag.textContent = `LIVE SIMULATION // ${proj.id}`;
+  if (mobileMode) mobileMode.textContent = `MODE: ${projectMode(proj)}`;
+  if (mobileCanvas && source !== "loop") {
+    drawProjectSchematic(mobileCanvas, proj, performance.now() * 0.001);
+  }
+}
+
 function initCursorAndInteractions() {
   const dot = document.getElementById("cursor-dot");
   const ring = document.getElementById("cursor-ring");
   const label = document.getElementById("cursor-label");
   const cursorToast = document.getElementById("cursor-toast");
   const sparkleCanvas = document.getElementById("sparkle-canvas");
-  const sCtx = sparkleCanvas.getContext("2d");
+  const sCtx = sparkleCanvas ? sparkleCanvas.getContext("2d") : null;
 
-  sparkleCanvas.width = window.innerWidth;
-  sparkleCanvas.height = window.innerHeight;
+  if (sparkleCanvas) {
+    sparkleCanvas.width = window.innerWidth;
+    sparkleCanvas.height = window.innerHeight;
+  }
   window.addEventListener("resize", () => {
+    if (!sparkleCanvas) return;
     sparkleCanvas.width = window.innerWidth;
     sparkleCanvas.height = window.innerHeight;
   });
 
   let cx = window.innerWidth / 2;
   let cy = window.innerHeight / 2;
-  let rx = cx;
-  let ry = cy;
+  let lastPointerX = cx;
+  let lastPointerY = cy;
+  let lastPointerTime = performance.now();
   let cursorInitialized = false;
+  const cursorSpring = new Spring2D(cx, cy, MOTION.springs.cursorRing);
   const sparkles = [];
+
+  // Floating Project Hover Preview Spring State
+  const previewBox = document.getElementById("project-hover-preview");
+  const previewInner = document.getElementById("preview-inner");
+  const previewCanvas = document.getElementById("preview-canvas");
+  const previewTag = document.getElementById("preview-tag");
+  const previewYear = document.getElementById("preview-year");
+  const previewModeEl = document.getElementById("preview-mode");
+  const previewTitleEl = document.getElementById("preview-title-mini");
+  const projectIndexEl = document.getElementById("project-index");
+  const mobileStageEl = document.getElementById("mobile-work-stage");
+  const mobileCanvasEl = document.getElementById("mobile-work-canvas");
+  const workSectionEl = document.getElementById("work");
+
+  const previewPosSpring = new Spring2D(24, 120, MOTION.springs.projectPreview);
+  const previewTiltSpring = new Spring2D(0, 0, MOTION.springs.projectPreviewTilt);
+  const previewScaleSpring = new SpringValue(0.88, MOTION.springs.projectPreviewScale);
+  let previewVisible = false;
+  let hoveredProject = CONFIG.projects[0] || null;
+  let switchTimer = null;
+
+  function computePreviewTargetPosition(clientX, clientY) {
+    const boxW = (previewBox && previewBox.offsetWidth) || 390;
+    const boxH = (previewBox && previewBox.offsetHeight) || 310;
+    const margin = 16;
+    const offsetX = clientX + 34 + boxW > window.innerWidth - margin ? -boxW - 34 : 34;
+    const tx = Math.max(margin, Math.min(window.innerWidth - boxW - margin, clientX + offsetX));
+    const ty = Math.max(64, Math.min(window.innerHeight - boxH - 48, clientY - boxH * 0.42));
+    return { tx, ty };
+  }
 
   function positionToastNearPoint(x, y) {
     if (!cursorToast) return;
@@ -1742,48 +2145,133 @@ function initCursorAndInteractions() {
   }
 
   window.addEventListener("pointermove", (e) => {
-    cx = e.clientX;
-    cy = e.clientY;
+    const now = performance.now();
+    const dtMs = Math.max(4, now - lastPointerTime);
+    const instVx = ((e.clientX - lastPointerX) / dtMs) * 1000;
+    const instVy = ((e.clientY - lastPointerY) / dtMs) * 1000;
+    STATE.pointerVelocityX = STATE.pointerVelocityX * 0.65 + instVx * 0.35;
+    STATE.pointerVelocityY = STATE.pointerVelocityY * 0.65 + instVy * 0.35;
+
+    lastPointerX = cx = e.clientX;
+    lastPointerY = cy = e.clientY;
+    lastPointerTime = now;
     STATE.pointerClientX = cx;
     STATE.pointerClientY = cy;
 
     if (!cursorInitialized) {
       cursorInitialized = true;
-      rx = cx;
-      ry = cy;
+      cursorSpring.snap(cx, cy);
       document.body.classList.add("custom-cursor-ready");
+    } else {
+      cursorSpring.set(cx, cy);
     }
 
     STATE.targetMouseX = (cx / window.innerWidth) * 2 - 1;
     STATE.targetMouseY = -(cy / window.innerHeight) * 2 + 1;
 
-    dot.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
+    if (dot) dot.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
     if (cursorToast && cursorToast.classList.contains("is-visible")) {
       positionToastNearPoint(cx, cy);
     }
 
-    const spawnChance = STATE.overdrive ? 0.8 : 0.3;
-    if (!STATE.reducedMotion && !STATE.tabHidden && Math.random() < spawnChance) {
+    const spawnChance = STATE.overdrive ? 0.75 : 0.28;
+    if (!STATE.reducedMotion && !STATE.tabHidden && !STATE.isCoarsePointer && Math.random() < spawnChance) {
       sparkles.push({
         x: cx + (Math.random() - 0.5) * 14,
         y: cy + (Math.random() - 0.5) * 14,
-        size: STATE.overdrive ? 4 + Math.random() * 5.5 : 2.5 + Math.random() * 3.5,
+        size: STATE.overdrive ? 4 + Math.random() * 5.5 : 2.4 + Math.random() * 3.2,
         alpha: 1,
         color: Math.random() > 0.3 ? "#00e5ff" : STATE.overdrive ? "#ff2a85" : "#ffffff"
       });
     }
   });
 
-  function renderCursorLoop() {
-    requestAnimationFrame(renderCursorLoop);
-    if (STATE.tabHidden) return;
+  let lastFrameTime = performance.now();
 
-    if (cursorInitialized) {
-      rx += (cx - rx) * 0.2;
-      ry += (cy - ry) * 0.2;
-      ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+  function renderCursorAndPreviewsLoop(now) {
+    requestAnimationFrame(renderCursorAndPreviewsLoop);
+    if (STATE.tabHidden) {
+      lastFrameTime = now;
+      return;
     }
 
+    const dt = Math.min(0.04, Math.max(0.001, (now - lastFrameTime) / 1000));
+    lastFrameTime = now;
+    const simTime = now * 0.001 * (STATE.reducedMotion ? 0.15 : 1);
+
+    // Decay pointer velocity when pointer stops moving
+    if (now - lastPointerTime > 32) {
+      STATE.pointerVelocityX *= 0.82;
+      STATE.pointerVelocityY *= 0.82;
+      if (previewVisible) {
+        previewTiltSpring.set(0, 0);
+      }
+    }
+
+    // 1. Update Cursor Ring via Spring2D
+    if (cursorInitialized && ring && !STATE.isCoarsePointer) {
+      const cState = cursorSpring.step(dt, STATE.reducedMotion);
+      ring.style.transform = `translate3d(${cState.x.toFixed(2)}px, ${cState.y.toFixed(2)}px, 0) translate(-50%, -50%)`;
+    }
+
+    // 2. Update Floating Project Preview Spring Position, Velocity Tilt & Live Canvas
+    if (
+      previewBox &&
+      !STATE.isCoarsePointer &&
+      window.innerWidth > 960 &&
+      (previewVisible || !previewPosSpring.isAtRest() || !previewScaleSpring.isAtRest() || !previewTiltSpring.isAtRest())
+    ) {
+      const pos = previewPosSpring.step(dt, STATE.reducedMotion);
+      const tilt = previewTiltSpring.step(dt, STATE.reducedMotion);
+      const scale = previewScaleSpring.step(dt, STATE.reducedMotion);
+
+      previewBox.style.left = "0px";
+      previewBox.style.top = "0px";
+      previewBox.style.transform = `translate3d(${pos.x.toFixed(2)}px, ${pos.y.toFixed(2)}px, 0)`;
+
+      if (previewInner) {
+        if (STATE.reducedMotion) {
+          previewInner.style.transform = "scale(1)";
+        } else {
+          const rotY = THREE.MathUtils.clamp(tilt.x, -11, 11);
+          const rotX = THREE.MathUtils.clamp(tilt.y, -9, 9);
+          const rotZ = THREE.MathUtils.clamp(tilt.x * 0.28, -3.2, 3.2);
+          const skewX = THREE.MathUtils.clamp(tilt.x * 0.18, -2.2, 2.2);
+          previewInner.style.transform = `scale(${scale.toFixed(3)}) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) rotateZ(${rotZ.toFixed(2)}deg) skewX(${skewX.toFixed(2)}deg)`;
+        }
+      }
+
+      if (previewVisible && hoveredProject && previewCanvas) {
+        drawProjectSchematic(previewCanvas, hoveredProject, simTime);
+      }
+    }
+
+    // 3. Live Canvas Update for Open Project Inspector Modal
+    if (STATE.modalOpen && activeModalProject) {
+      const modalCanvas = document.getElementById("modal-canvas");
+      if (modalCanvas) {
+        drawProjectSchematic(modalCanvas, activeModalProject, simTime);
+      }
+    }
+
+    // 4. Live Canvas Update for Docked Mobile/Tablet Stage when #work is in viewport
+    if (
+      mobileCanvasEl &&
+      mobileStageEl &&
+      (STATE.isCoarsePointer || window.innerWidth <= 960) &&
+      workSectionEl
+    ) {
+      const rect = workSectionEl.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        const activeProj = CONFIG.projects[STATE.activeProjectIndex] || CONFIG.projects[0];
+        if (activeProj) {
+          drawProjectSchematic(mobileCanvasEl, activeProj, simTime);
+        }
+      }
+    }
+
+    // 5. Render Cursor Sparkles
+    if (!sCtx || !sparkleCanvas) return;
     sCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
     if (STATE.reducedMotion) {
       sparkles.length = 0;
@@ -1813,7 +2301,7 @@ function initCursorAndInteractions() {
       sCtx.restore();
     }
   }
-  renderCursorLoop();
+  requestAnimationFrame(renderCursorAndPreviewsLoop);
 
   // Anti-flicker hover tracking using relatedTarget containment check
   let activeCursorEl = null;
@@ -1822,8 +2310,8 @@ function initCursorAndInteractions() {
     const target = e.target.closest("[data-cursor]");
     if (target && target !== activeCursorEl) {
       activeCursorEl = target;
-      ring.classList.add("is-active");
-      label.textContent = target.getAttribute("data-cursor");
+      if (ring) ring.classList.add("is-active");
+      if (label) label.textContent = target.getAttribute("data-cursor");
       SFX.playHover();
     }
   });
@@ -1835,11 +2323,11 @@ function initCursorAndInteractions() {
       const nextCursorEl = related ? related.closest?.("[data-cursor]") : null;
       if (nextCursorEl) {
         activeCursorEl = nextCursorEl;
-        ring.classList.add("is-active");
-        label.textContent = nextCursorEl.getAttribute("data-cursor");
+        if (ring) ring.classList.add("is-active");
+        if (label) label.textContent = nextCursorEl.getAttribute("data-cursor");
       } else {
         activeCursorEl = null;
-        ring.classList.remove("is-active");
+        if (ring) ring.classList.remove("is-active");
       }
     }
   });
@@ -1847,11 +2335,6 @@ function initCursorAndInteractions() {
   // -------------------------------------------------------------------------
   // PROJECT HOVER PREVIEW & ACCESSIBLE MODAL
   // -------------------------------------------------------------------------
-  const previewBox = document.getElementById("project-hover-preview");
-  const previewCanvas = document.getElementById("preview-canvas");
-  const previewTag = document.getElementById("preview-tag");
-  const previewYear = document.getElementById("preview-year");
-
   const projectModal = document.getElementById("project-modal");
   const modalCanvas = document.getElementById("modal-canvas");
   const modalCloseBtn = document.getElementById("modal-close");
@@ -1859,27 +2342,74 @@ function initCursorAndInteractions() {
   document.querySelectorAll(".project-row").forEach((row) => {
     const idx = Number(row.dataset.index);
     const proj = CONFIG.projects[idx];
+    if (!proj) return;
 
-    row.addEventListener("pointerenter", () => {
-      drawProjectSchematic(previewCanvas, proj);
-      previewTag.textContent = `SYS // ${proj.id}`;
-      previewYear.textContent = proj.year;
-      previewBox.classList.add("is-visible");
+    row.addEventListener("pointerenter", (e) => {
+      const wasHidden = !previewVisible;
+      const switchedProject = hoveredProject !== proj;
+      hoveredProject = proj;
+      STATE.hoveredProjectIndex = idx;
+      setDominantProject(idx, "hover");
+
+      if (projectIndexEl) projectIndexEl.classList.add("is-hovering");
+      if (previewTag) previewTag.textContent = `SYS // ${proj.id}`;
+      if (previewYear) previewYear.textContent = proj.year;
+      if (previewModeEl) previewModeEl.textContent = projectMode(proj);
+      if (previewTitleEl) previewTitleEl.textContent = proj.title.toUpperCase();
+      if (previewInner) {
+        previewInner.style.setProperty("--preview-accent", proj.accent || "#00e5ff");
+        if (switchedProject && !wasHidden) {
+          previewInner.classList.add("is-switching");
+          clearTimeout(switchTimer);
+          switchTimer = setTimeout(() => previewInner.classList.remove("is-switching"), 180);
+        }
+      }
+
+      const { tx, ty } = computePreviewTargetPosition(e.clientX || STATE.pointerClientX, e.clientY || STATE.pointerClientY);
+      if (wasHidden && previewScaleSpring.get() < 0.92) {
+        previewPosSpring.snap(tx, ty + (STATE.reducedMotion ? 0 : 18));
+      }
+      previewPosSpring.set(tx, ty);
+      previewScaleSpring.set(1);
+      previewVisible = true;
+      if (previewBox) previewBox.classList.add("is-visible");
+      if (previewCanvas) drawProjectSchematic(previewCanvas, proj, performance.now() * 0.001);
     });
 
     row.addEventListener("pointermove", (e) => {
-      const offsetX = e.clientX + 220 + 180 > window.innerWidth ? -210 : 220;
-      previewBox.style.left = `${e.clientX + offsetX}px`;
-      previewBox.style.top = `${e.clientY}px`;
+      const { tx, ty } = computePreviewTargetPosition(e.clientX, e.clientY);
+      previewPosSpring.set(tx, ty);
+
+      if (!STATE.reducedMotion) {
+        const targetTiltX = THREE.MathUtils.clamp(STATE.pointerVelocityX * 0.0085, -10, 10);
+        const targetTiltY = THREE.MathUtils.clamp(-STATE.pointerVelocityY * 0.0085, -8, 8);
+        previewTiltSpring.set(targetTiltX, targetTiltY);
+      }
     });
 
-    row.addEventListener("pointerleave", () => {
-      previewBox.classList.remove("is-visible");
+    row.addEventListener("pointerleave", (e) => {
+      const nextRow = e.relatedTarget ? e.relatedTarget.closest?.(".project-row") : null;
+      if (!nextRow) {
+        previewVisible = false;
+        STATE.hoveredProjectIndex = -1;
+        previewScaleSpring.set(0.88);
+        previewTiltSpring.set(0, 0);
+        if (previewBox) previewBox.classList.remove("is-visible");
+        if (projectIndexEl) projectIndexEl.classList.remove("is-hovering");
+      }
+    });
+
+    row.addEventListener("focus", () => {
+      setDominantProject(idx, "focus");
     });
 
     const triggerOpen = () => {
       SFX.playClick();
-      previewBox.classList.remove("is-visible");
+      previewVisible = false;
+      STATE.hoveredProjectIndex = -1;
+      previewScaleSpring.set(0.88);
+      if (previewBox) previewBox.classList.remove("is-visible");
+      if (projectIndexEl) projectIndexEl.classList.remove("is-hovering");
       openProjectModal(proj, modalCanvas, row);
     };
 
@@ -1892,10 +2422,12 @@ function initCursorAndInteractions() {
     });
   });
 
-  modalCloseBtn.addEventListener("click", () => closeAccessibleModal(projectModal));
-  projectModal.addEventListener("click", (e) => {
-    if (e.target === projectModal) closeAccessibleModal(projectModal);
-  });
+  if (modalCloseBtn && projectModal) {
+    modalCloseBtn.addEventListener("click", () => closeAccessibleModal(projectModal));
+    projectModal.addEventListener("click", (e) => {
+      if (e.target === projectModal) closeAccessibleModal(projectModal);
+    });
+  }
 
   // -------------------------------------------------------------------------
   // PHOTO GALLERY LIGHTBOX
@@ -1933,10 +2465,12 @@ function initCursorAndInteractions() {
     });
   });
 
-  lbCloseBtn.addEventListener("click", () => closeAccessibleModal(lightbox));
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeAccessibleModal(lightbox);
-  });
+  if (lbCloseBtn && lightbox) {
+    lbCloseBtn.addEventListener("click", () => closeAccessibleModal(lightbox));
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) closeAccessibleModal(lightbox);
+    });
+  }
 
   // -------------------------------------------------------------------------
   // CLIPBOARD COPY + CURSOR TOAST FOR "LET'S TALK" AND FOOTER EMAIL
@@ -2038,6 +2572,7 @@ function closeAccessibleModal(modalEl) {
   modalEl.classList.remove("is-open");
   modalEl.setAttribute("aria-hidden", "true");
   STATE.modalOpen = false;
+  activeModalProject = null;
   document.body.classList.remove("modal-open");
   if (STATE.lenis && !STATE.bootActive) STATE.lenis.start();
 
@@ -2046,65 +2581,597 @@ function closeAccessibleModal(modalEl) {
   }
 }
 
-function drawProjectSchematic(canvas, proj) {
-  const ctx = canvas.getContext("2d");
-  const w = canvas.width;
-  const h = canvas.height;
+function projectMode(proj) {
+  if (!proj) return "ORBITAL SIM";
+  const vt = String(proj.visualType || "").toLowerCase();
+  if (vt === "orbital") return "ORBITAL ADCS";
+  if (vt === "descent") return "DESCENT / RF";
+  if (vt === "web") return "WEBGL SYSTEM";
+  if (vt === "ml") return "EDGE AI / DSP";
+  if (vt === "hardware") return "LOGIC / BUS";
 
-  ctx.fillStyle = "#060b16";
+  const title = String(proj.title || proj.name || "");
+  if (/ADCS|CubeSat/i.test(title)) return "ORBITAL ADCS";
+  if (/CAN|GROUND STATION/i.test(title)) return "DESCENT / RF";
+  if (/PORTAL|WEB/i.test(title)) return "WEBGL SYSTEM";
+  if (/NILM|DISAGGREGATION/i.test(title)) return "EDGE AI / DSP";
+  return "SYSTEM TRACE";
+}
+
+/**
+ * Reusable Per-Project Live Visualization System
+ * Supports visualType: "orbital" | "descent" | "web" | "ml" | "hardware"
+ */
+function drawProjectSchematic(canvas, proj, timeSec = performance.now() * 0.001) {
+  if (!canvas || !proj) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  const w = canvas.width || 520;
+  const h = canvas.height || 330;
+  const t = Number.isFinite(timeSec) ? timeSec : 0;
+  const accent = proj.accent || "#00e5ff";
+  const mode = projectMode(proj);
+  const vt = String(proj.visualType || inferVisualType(proj.title || proj.name, proj.id)).toLowerCase();
+
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = "#04070f";
   ctx.fillRect(0, 0, w, h);
 
-  ctx.strokeStyle = "rgba(0, 229, 255, 0.08)";
+  // Subtle calibration grid
+  ctx.strokeStyle = "rgba(120, 185, 225, 0.08)";
   ctx.lineWidth = 1;
-  for (let x = 0; x < w; x += 32) {
+  const gridStep = Math.round(Math.max(24, w / 18));
+  for (let x = 0; x < w; x += gridStep) {
     ctx.beginPath();
     ctx.moveTo(x, 0);
     ctx.lineTo(x, h);
     ctx.stroke();
   }
-  for (let y = 0; y < h; y += 32) {
+  for (let y = 0; y < h; y += gridStep) {
     ctx.beginPath();
     ctx.moveTo(0, y);
     ctx.lineTo(w, y);
     ctx.stroke();
   }
 
-  ctx.strokeStyle = proj.accent || "#00e5ff";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.arc(w * 0.5, h * 0.48, h * 0.28, 0, Math.PI * 2);
-  ctx.stroke();
+  // Radial atmospheric glow
+  ctx.save();
+  ctx.globalAlpha = 0.14;
+  const glow = ctx.createRadialGradient(w * 0.48, h * 0.44, 6, w * 0.48, h * 0.44, h * 0.62);
+  glow.addColorStop(0, accent);
+  glow.addColorStop(1, "transparent");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+  ctx.restore();
 
-  ctx.strokeStyle = "rgba(255,255,255,0.3)";
-  ctx.strokeRect(w * 0.32, h * 0.28, w * 0.36, h * 0.4);
+  const cx = w * 0.46;
+  const cy = h * 0.44;
+  const r = Math.min(w, h) * 0.21;
 
-  ctx.strokeStyle = proj.accent;
-  ctx.beginPath();
-  for (let x = 40; x < w - 40; x += 4) {
-    const y = h * 0.48 + Math.sin(x * 0.04 + Number(proj.id)) * 28;
-    if (x === 40) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+  if (vt === "orbital") {
+    // -----------------------------------------------------------------------
+    // 01 // PARIKSHIT ADCS: Orbit ellipse, Earth limb, B-dot field & attitude triad
+    // -----------------------------------------------------------------------
+    const earthX = cx - r * 0.35;
+    const earthY = cy + r * 0.08;
+
+    // Geomagnetic B-field dipole loops
+    ctx.save();
+    ctx.translate(earthX, earthY);
+    ctx.rotate(-0.22);
+    ctx.strokeStyle = "rgba(198, 255, 0, 0.2)";
+    ctx.setLineDash([4, 5]);
+    for (let side of [-1, 1]) {
+      ctx.beginPath();
+      ctx.ellipse(side * r * 0.92, 0, r * 0.95, r * 0.52, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.restore();
+
+    // Shaded LEO Earth sphere
+    const earthGrad = ctx.createRadialGradient(earthX - r * 0.3, earthY - r * 0.3, 2, earthX, earthY, r * 0.92);
+    earthGrad.addColorStop(0, "#1c7ea6");
+    earthGrad.addColorStop(0.65, "#092847");
+    earthGrad.addColorStop(1, "#040b17");
+    ctx.fillStyle = earthGrad;
+    ctx.beginPath();
+    ctx.arc(earthX, earthY, r * 0.92, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(0, 229, 255, 0.55)";
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+
+    // Tilted 600 km SSO orbit ellipse
+    const orbitTilt = -0.26;
+    const rxOrbit = r * 1.95;
+    const ryOrbit = r * 0.76;
+    ctx.save();
+    ctx.translate(earthX, earthY);
+    ctx.rotate(orbitTilt);
+    ctx.strokeStyle = "rgba(0, 229, 255, 0.45)";
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, rxOrbit, ryOrbit, 0, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Propagating satellite position along orbit
+    const theta = t * 0.85 + 0.45;
+    const satLocalX = Math.cos(theta) * rxOrbit;
+    const satLocalY = Math.sin(theta) * ryOrbit;
+
+    // Nadir & electrodynamic tether vector toward Earth center
+    ctx.strokeStyle = "rgba(255, 42, 133, 0.55)";
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(satLocalX, satLocalY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 2U CubeSat body + attitude axes triad + B-dot damping ring
+    ctx.translate(satLocalX, satLocalY);
+    const satAttitude = Math.sin(t * 1.7) * 0.16 - 0.3;
+    ctx.rotate(satAttitude);
+
+    // Pulsing B-dot magnetorquer dipole ring
+    const pulseR = 16 + ((t * 18) % 18);
+    const pulseAlpha = Math.max(0, 0.55 - ((t * 18) % 18) / 32);
+    ctx.strokeStyle = `rgba(198, 255, 0, ${pulseAlpha.toFixed(2)})`;
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.arc(0, 0, pulseR, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Attitude reference axes (+Roll, +Pitch, +Yaw)
+    ctx.lineWidth = 1.6;
+    ctx.strokeStyle = "#00e5ff";
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(28, 0);
+    ctx.stroke();
+    ctx.strokeStyle = "#c6ff00";
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -26);
+    ctx.stroke();
+    ctx.strokeStyle = "#ff2a85";
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(-16, 16);
+    ctx.stroke();
+
+    // Solar wings & 2U bus
+    ctx.fillStyle = "rgba(0, 229, 255, 0.85)";
+    ctx.fillRect(-26, -4, 15, 8);
+    ctx.fillRect(11, -4, 15, 8);
+    ctx.fillStyle = "#e4f0f8";
+    ctx.fillRect(-8, -11, 16, 22);
+    ctx.strokeStyle = "#050b14";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(-8, -11, 16, 22);
+    ctx.restore();
+
+    // Telemetry readout overlay
+    const q0 = (0.998 + Math.sin(t * 0.9) * 0.001).toFixed(3);
+    const q1 = (0.014 + Math.cos(t * 1.3) * 0.006).toFixed(3);
+    const omega = (0.0021 + Math.abs(Math.sin(t * 1.1)) * 0.0008).toFixed(4);
+    const ptErr = (11.2 + Math.sin(t * 1.4) * 1.4).toFixed(1);
+    ctx.fillStyle = "rgba(215, 238, 252, 0.84)";
+    ctx.font = "10px 'JetBrains Mono', monospace";
+    ctx.fillText(`q̂ = [${q0}, ${q1}, -0.039, 0.031]`, w - 210, 40);
+    ctx.fillStyle = "#c6ff00";
+    ctx.fillText(`|ω| = ${omega} rad/s // B-DOT`, w - 210, 56);
+    ctx.fillStyle = "#00e5ff";
+    ctx.fillText(`TETHER ERR: ${ptErr}° (<15° MAX)`, w - 210, 72);
+  } else if (vt === "descent") {
+    // -----------------------------------------------------------------------
+    // 02 // CAN-7USAT: Descent trajectory, altitude decay, guidance vectors & RF
+    // -----------------------------------------------------------------------
+    const prog = (t * 0.15) % 1;
+    const startX = w * 0.18;
+    const startY = h * 0.16;
+    const lzX = w * 0.56;
+    const lzY = h * 0.73;
+
+    // Altitude reference lines
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+    ctx.fillStyle = "rgba(170, 195, 215, 0.55)";
+    ctx.font = "9px 'JetBrains Mono', monospace";
+    [1000, 650, 300, 0].forEach((alt, idx) => {
+      const ly = startY + (lzY - startY) * (idx / 3);
+      ctx.beginPath();
+      ctx.moveTo(w * 0.08, ly);
+      ctx.lineTo(w * 0.88, ly);
+      ctx.stroke();
+      ctx.fillText(`${String(alt).padStart(4, "0")}m`, w * 0.08, ly - 4);
+    });
+
+    // Landing Zone target rings
+    ctx.save();
+    ctx.translate(lzX, lzY);
+    ctx.strokeStyle = "rgba(198, 255, 0, 0.65)";
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 34, 11, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.strokeStyle = "rgba(0, 229, 255, 0.45)";
+    ctx.beginPath();
+    ctx.ellipse(0, 0, 16 + Math.sin(t * 3) * 3, 5.5, 0, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = "#c6ff00";
+    ctx.font = "9px 'JetBrains Mono', monospace";
+    ctx.fillText("TARGET LZ", -26, 22);
+    ctx.restore();
+
+    // Nominal dashed glide slope vs active trajectory
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(lzX, lzY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i <= 40; i++) {
+      const u = i / 40;
+      const px = startX + (lzX - startX) * u + Math.sin(u * Math.PI * 2) * 18 * (1 - u);
+      const py = startY + (lzY - startY) * u - Math.sin(u * Math.PI) * 14;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Current CanSat position along descent curve
+    const canX = startX + (lzX - startX) * prog + Math.sin(prog * Math.PI * 2) * 18 * (1 - prog);
+    const canY = startY + (lzY - startY) * prog - Math.sin(prog * Math.PI) * 14;
+
+    // Parachute canopy + suspension lines + CanSat cylinder + guidance correction vector
+    ctx.save();
+    ctx.translate(canX, canY);
+    ctx.rotate(Math.sin(t * 2.4) * 0.08);
+    ctx.strokeStyle = "#00e5ff";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(0, -24, 18, Math.PI, 0);
+    ctx.stroke();
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(-16, -24);
+    ctx.lineTo(-6, -8);
+    ctx.moveTo(16, -24);
+    ctx.lineTo(6, -8);
+    ctx.stroke();
+
+    ctx.fillStyle = "#e6f2f8";
+    ctx.fillRect(-8, -8, 16, 20);
+    ctx.strokeStyle = accent;
+    ctx.strokeRect(-8, -8, 16, 20);
+
+    // Guidance correction vector arrow
+    const corrLen = 22 * (1 - prog * 0.6);
+    ctx.strokeStyle = "#ff2a85";
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.moveTo(8, 2);
+    ctx.lineTo(8 + corrLen, 2);
+    ctx.stroke();
+    ctx.restore();
+
+    // Ground Station RF dish & expanding telemetry wave arcs
+    const gsX = w * 0.82;
+    const gsY = h * 0.71;
+    ctx.strokeStyle = "#00e5ff";
+    ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    ctx.moveTo(gsX - 10, gsY + 12);
+    ctx.lineTo(gsX, gsY);
+    ctx.lineTo(gsX + 10, gsY + 12);
+    ctx.stroke();
+    for (let k = 0; k < 3; k++) {
+      const waveR = 16 + ((t * 22 + k * 14) % 42);
+      const waveAlpha = Math.max(0.08, 0.65 - waveR / 62);
+      ctx.strokeStyle = `rgba(0, 229, 255, ${waveAlpha.toFixed(2)})`;
+      ctx.beginPath();
+      ctx.arc(gsX, gsY, waveR, -Math.PI * 0.88, -Math.PI * 0.42);
+      ctx.stroke();
+    }
+
+    // Telemetry readout
+    const curAlt = Math.max(0, 850 * (1 - prog)).toFixed(0);
+    const vDesc = (8.2 + Math.sin(t * 1.8) * 0.4).toFixed(1);
+    ctx.fillStyle = "rgba(220, 242, 255, 0.88)";
+    ctx.font = "10px 'JetBrains Mono', monospace";
+    ctx.fillText(`ALT: ${curAlt.padStart(3, "0")} m // Vz: -${vDesc} m/s`, w - 205, 38);
+    ctx.fillStyle = "#c6ff00";
+    ctx.fillText(`FLYWHEEL STAB: NOMINAL`, w - 205, 54);
+    ctx.fillStyle = "#00e5ff";
+    ctx.fillText(`RF LINK: 433 MHz [LOCKED]`, w - 205, 70);
+  } else if (vt === "web") {
+    // -----------------------------------------------------------------------
+    // 03 // PARIKSHIT WEB PORTAL: Layered UI windows, DOM grid & 3D WebGL node
+    // -----------------------------------------------------------------------
+    const winW = w * 0.64;
+    const winH = h * 0.56;
+    const winX = w * 0.14;
+    const winY = h * 0.16;
+
+    // Back depth layer (CSS Grid / DOM Layer)
+    const shift1 = Math.sin(t * 1.2) * 5;
+    const shift2 = Math.cos(t * 1.2) * 6;
+    ctx.strokeStyle = "rgba(0, 229, 255, 0.28)";
+    ctx.strokeRect(winX + 18 + shift1, winY + 14 - shift1, winW, winH);
+
+    // Primary Browser/Viewport Frame
+    ctx.fillStyle = "rgba(7, 13, 26, 0.92)";
+    ctx.fillRect(winX, winY, winW, winH);
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(winX, winY, winW, winH);
+
+    // Browser header bar & window controls
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.15)";
+    ctx.beginPath();
+    ctx.moveTo(winX, winY + 20);
+    ctx.lineTo(winX + winW, winY + 20);
+    ctx.stroke();
+    ["#ff2a85", "#c6ff00", "#00e5ff"].forEach((col, i) => {
+      ctx.fillStyle = col;
+      ctx.beginPath();
+      ctx.arc(winX + 12 + i * 10, winY + 10, 2.8, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    ctx.fillStyle = "rgba(210, 235, 255, 0.7)";
+    ctx.font = "9px 'JetBrains Mono', monospace";
+    ctx.fillText("parikshitspace.in // THREE.JS + VITE", winX + 48, winY + 13);
+
+    // Left UI column cards moving independently (scroll choreography)
+    for (let c = 0; c < 2; c++) {
+      const cardY = winY + 32 + c * 48 + Math.sin(t * 1.6 + c) * 4;
+      ctx.fillStyle = "rgba(0, 229, 255, 0.08)";
+      ctx.fillRect(winX + 12, cardY, winW * 0.38, 36);
+      ctx.strokeStyle = c === 0 ? "#00e5ff" : "rgba(255,255,255,0.22)";
+      ctx.strokeRect(winX + 12, cardY, winW * 0.38, 36);
+      ctx.fillStyle = "rgba(255,255,255,0.65)";
+      ctx.fillRect(winX + 20, cardY + 10, winW * 0.24, 4);
+      ctx.fillStyle = "rgba(0, 229, 255, 0.55)";
+      ctx.fillRect(winX + 20, cardY + 20, winW * 0.16, 3);
+    }
+
+    // Right embedded 3D WebGL viewport box with rotating wireframe satellite ring
+    const glX = winX + winW * 0.7;
+    const glY = winY + winH * 0.56;
+    const glR = Math.min(winW, winH) * 0.22;
+    ctx.strokeStyle = "rgba(198, 255, 0, 0.65)";
+    ctx.beginPath();
+    ctx.ellipse(glX, glY, glR * 1.35, glR * 0.55, t * 0.5, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.strokeStyle = "#00e5ff";
+    ctx.beginPath();
+    ctx.arc(glX, glY, glR * 0.68, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Floating foreground UI inspector card
+    const fgX = winX + winW * 0.52 + shift2;
+    const fgY = winY + winH - 22;
+    ctx.fillStyle = "rgba(10, 18, 34, 0.95)";
+    ctx.fillRect(fgX, fgY, winW * 0.54, 34);
+    ctx.strokeStyle = "#c6ff00";
+    ctx.strokeRect(fgX, fgY, winW * 0.54, 34);
+    ctx.fillStyle = "#c6ff00";
+    ctx.font = "9px 'JetBrains Mono', monospace";
+    ctx.fillText("SCROLLTIMELINE // GSAP + WEBGL SYNC", fgX + 10, fgY + 20);
+  } else if (vt === "ml") {
+    // -----------------------------------------------------------------------
+    // 04 // EDGENILM: Aggregate waveform -> Edge inference graph -> Disaggregated loads
+    // -----------------------------------------------------------------------
+    // 1. Left: Composite AC Current Waveform
+    const waveX0 = 24;
+    const waveW = w * 0.31;
+    const waveY = h * 0.38;
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
+    ctx.strokeRect(waveX0, h * 0.16, waveW, h * 0.46);
+    ctx.fillStyle = "rgba(220, 240, 255, 0.75)";
+    ctx.font = "9px 'JetBrains Mono', monospace";
+    ctx.fillText("I_AGG(t) // SMART METER", waveX0 + 8, h * 0.22);
+
+    ctx.strokeStyle = accent;
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    for (let x = 0; x <= waveW - 12; x += 2) {
+      const ph = (x / waveW) * Math.PI * 4 - t * 3.2;
+      const y =
+        waveY +
+        Math.sin(ph) * 20 +
+        Math.sin(ph * 3) * 8 +
+        Math.cos(ph * 5) * 4;
+      if (x === 0) ctx.moveTo(waveX0 + 6 + x, y);
+      else ctx.lineTo(waveX0 + 6 + x, y);
+    }
+    ctx.stroke();
+
+    // 2. Center: Edge Inference Node Graph with flowing pulses
+    const col1X = w * 0.43;
+    const col2X = w * 0.57;
+    const nodes1 = [h * 0.23, h * 0.39, h * 0.55];
+    const nodes2 = [h * 0.22, h * 0.39, h * 0.56];
+
+    ctx.lineWidth = 1;
+    nodes1.forEach((y1, i) => {
+      nodes2.forEach((y2, j) => {
+        ctx.strokeStyle = "rgba(0, 229, 255, 0.22)";
+        ctx.beginPath();
+        ctx.moveTo(col1X, y1);
+        ctx.lineTo(col2X, y2);
+        ctx.stroke();
+
+        // Flowing inference pulse along edge
+        const pNorm = (t * 0.9 + i * 0.27 + j * 0.19) % 1;
+        const px = col1X + (col2X - col1X) * pNorm;
+        const py = y1 + (y2 - y1) * pNorm;
+        ctx.fillStyle = j === 0 ? "#00e5ff" : j === 1 ? "#c6ff00" : "#ff2a85";
+        ctx.beginPath();
+        ctx.arc(px, py, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    });
+
+    nodes1.forEach((y1) => {
+      ctx.fillStyle = "#081224";
+      ctx.strokeStyle = "#00e5ff";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(col1X, y1, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    });
+
+    // 3. Right: Disaggregated Appliance Signatures & Confidence Bars
+    const loads = [
+      { label: "HVAC COMPRESSOR", col: "#00e5ff", conf: 0.94, freq: 1.5 },
+      { label: "INDUCTION COIL", col: "#c6ff00", conf: 0.89, freq: 3.0 },
+      { label: "SWITCHED PSU", col: "#ff2a85", conf: 0.92, freq: 4.5 }
+    ];
+    const rightX = w * 0.63;
+    const rightW = w * 0.32;
+
+    loads.forEach((ld, idx) => {
+      const ly = nodes2[idx];
+      ctx.fillStyle = ld.col;
+      ctx.beginPath();
+      ctx.arc(col2X, ly, 5.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Mini disaggregated harmonic waveform
+      ctx.strokeStyle = ld.col;
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      for (let x = 0; x <= rightW * 0.55; x += 2) {
+        const ph = (x / 40) * ld.freq - t * 3.5;
+        const wy = ly + Math.sin(ph) * 8;
+        if (x === 0) ctx.moveTo(rightX, wy);
+        else ctx.lineTo(rightX + x, wy);
+      }
+      ctx.stroke();
+
+      ctx.fillStyle = "rgba(230, 245, 255, 0.85)";
+      ctx.font = "8.5px 'JetBrains Mono', monospace";
+      ctx.fillText(ld.label, rightX, ly - 12);
+      const dynConf = Math.round((ld.conf + Math.sin(t * 1.5 + idx) * 0.02) * 100);
+      ctx.fillStyle = ld.col;
+      ctx.fillText(`${dynConf}%`, rightX + rightW * 0.64, ly + 3);
+    });
+  } else {
+    // -----------------------------------------------------------------------
+    // 05 // HARDWARE / EMBEDDED FALLBACK: PCB traces & SPI logic timing diagram
+    // -----------------------------------------------------------------------
+    const signals = ["SCLK", "MOSI", "MISO", "CS_N"];
+    const stepShift = Math.floor(t * 6);
+    signals.forEach((s, k) => {
+      const y = 52 + k * 42;
+      ctx.fillStyle = "rgba(220, 240, 250, 0.78)";
+      ctx.font = "10px 'JetBrains Mono', monospace";
+      ctx.fillText(s, 20, y - 4);
+      ctx.strokeStyle = k === 0 ? accent : k === 3 ? "#ff2a85" : "#c6ff00";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      let high = false;
+      for (let x = 76; x < w - 22; x += 14) {
+        const bitIdx = Math.floor((x - 76) / 28) + k + stepShift;
+        const next = k === 0 ? ((x - 76) / 14 + stepShift) % 2 === 0 : bitIdx % 2 === 0;
+        const yy = next ? y - 13 : y + 3;
+        if (x === 76) ctx.moveTo(x, yy);
+        else {
+          ctx.lineTo(x - 14, high ? y - 13 : y + 3);
+          ctx.lineTo(x - 14, yy);
+          ctx.lineTo(x, yy);
+        }
+        high = next;
+      }
+      ctx.stroke();
+    });
   }
+
+  // Bottom & Top Technical Framing HUD
+  ctx.fillStyle = "rgba(5, 9, 18, 0.86)";
+  ctx.fillRect(0, h - 52, w, 52);
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(0, h - 52);
+  ctx.lineTo(w, h - 52);
   ctx.stroke();
 
-  ctx.fillStyle = "#ffffff";
-  ctx.font = "700 18px 'Syne', sans-serif";
-  ctx.fillText(proj.name.toUpperCase(), 24, h - 42);
-  ctx.fillStyle = proj.accent;
-  ctx.font = "400 12px 'JetBrains Mono', monospace";
-  ctx.fillText(`TELEMETRY NODE // ${proj.tech.join(" • ")}`, 24, h - 20);
+  ctx.fillStyle = "rgba(255, 255, 255, 0.94)";
+  ctx.font = `700 ${Math.max(12, Math.min(16, Math.round(w / 32)))}px 'Syne', sans-serif`;
+  ctx.fillText(String(proj.title || proj.name).toUpperCase().slice(0, 42), 20, h - 28);
+
+  ctx.fillStyle = accent;
+  ctx.font = "10px 'JetBrains Mono', monospace";
+  ctx.fillText(`${mode}  //  NODE ${String(proj.id).padStart(2, "0")}  //  ${proj.animationType || vt}`, 20, h - 11);
+
+  ctx.fillStyle = "rgba(210, 235, 250, 0.52)";
+  ctx.font = "9px 'JetBrains Mono', monospace";
+  ctx.fillText("ILLUSTRATIVE SYSTEM SIMULATION", 20, 18);
 }
 
 function openProjectModal(proj, canvas, triggerEl) {
-  drawProjectSchematic(canvas, proj);
-  document.getElementById("modal-index").textContent = `SYSTEM ARCHIVE // ${proj.id} (${proj.year})`;
-  document.getElementById("modal-title").textContent = proj.name;
-  document.getElementById("modal-desc").textContent = proj.summary;
-  document.getElementById("modal-arch").textContent = `ARCHITECTURE // ${proj.architecture}`;
-  document.getElementById("modal-tags").innerHTML = proj.tech
+  const p = normalizeProject(proj);
+  activeModalProject = p;
+  drawProjectSchematic(canvas, p, performance.now() * 0.001);
+  document.getElementById("modal-index").textContent = `SYSTEM ARCHIVE // ${p.id} (${p.year})`;
+  document.getElementById("modal-title").textContent = p.title;
+  document.getElementById("modal-desc").textContent = p.shortDescription;
+  document.getElementById("modal-arch").textContent = `ARCHITECTURE // ${p.detailedDescription}`;
+  document.getElementById("modal-tags").innerHTML = p.technologies
     .map((t) => `<span class="tech-chip">${escapeHtml(t)}</span>`)
     .join("");
-  document.getElementById("modal-link").href = proj.link;
+
+  const modalLink = document.getElementById("modal-link");
+  const modalLinkLabel = document.getElementById("modal-link-label");
+  const hasExternalLink = isVerifiedExternalLink(p.link);
+
+  if (modalLink) {
+    if (hasExternalLink) {
+      modalLink.href = p.link;
+      modalLink.target = "_blank";
+      modalLink.rel = "noopener noreferrer";
+      modalLink.setAttribute("data-cursor", "OPEN");
+    } else {
+      const subject = encodeURIComponent(`Inquiry: ${p.title} (${p.id})`);
+      modalLink.href = `mailto:${CONFIG.email}?subject=${subject}`;
+      modalLink.removeAttribute("target");
+      modalLink.removeAttribute("rel");
+      modalLink.setAttribute("data-cursor", "REQUEST");
+    }
+  }
+  if (modalLinkLabel) {
+    if (hasExternalLink) {
+      modalLinkLabel.textContent = /github\.com\/.+/i.test(p.link) ? "VIEW SOURCE REPOSITORY" : "OPEN LIVE SYSTEM";
+    } else {
+      modalLinkLabel.textContent = "REQUEST REPOSITORY / BRIEFING";
+    }
+  }
+
+  const modalMetrics = document.getElementById("modal-metrics");
+  if (modalMetrics) {
+    const metrics = [
+      ["YEAR", p.year],
+      ["STACK", p.technologies.slice(0, 3).join(" / ")],
+      ["VISUAL", projectMode(p)]
+    ];
+    modalMetrics.innerHTML = metrics
+      .map(
+        ([label, value]) =>
+          `<div class="modal-metric-box"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`
+      )
+      .join("");
+  }
 
   const modalEl = document.getElementById("project-modal");
   const closeBtn = document.getElementById("modal-close");
@@ -2340,6 +3407,854 @@ function escapeHtml(str) {
   }[m]));
 }
 
+
+/* ============================================================================
+ * 10 // NEW EDITORIAL STORYTELLING, SEMANTIC PROJECT VISUALS & PHYSICS SPRINGS
+ * ============================================================================ */
+function initMissionStory() {
+  const stages = Array.isArray(CONFIG.missionStoryStages) ? CONFIG.missionStoryStages : [];
+  const section = document.getElementById("mission-story");
+  const canvas = document.getElementById("mission-story-canvas");
+  const rail = document.getElementById("mission-rail");
+  const activeCard = document.getElementById("mission-active-card");
+  if (!section || !canvas || !rail || stages.length === 0) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  const title = document.getElementById("ms-stage-title");
+  const desc = document.getElementById("ms-stage-desc");
+  const code = document.getElementById("ms-stage-code");
+  const metric = document.getElementById("ms-stage-metric");
+  const equation = document.getElementById("ms-stage-eq");
+  const hudLeft = document.getElementById("ms-hud-left");
+  const hudProgress = document.getElementById("ms-hud-progress");
+  const buttons = [];
+  let progress = 0;
+  let activeStage = -1;
+  let stageSwitchTimer = null;
+
+  rail.innerHTML = stages
+    .map(
+      (s, i) =>
+        `<button type="button" class="mission-step-btn${i === 0 ? " is-active" : ""}" data-stage="${i}" role="tab" aria-selected="${i === 0}" aria-label="Go to ${escapeHtml(s.title)}"><span class="step-num">0${i + 1}</span><span class="mission-rail-name">${escapeHtml(s.title)}</span></button>`
+    )
+    .join("");
+
+  rail.querySelectorAll("[data-stage]").forEach((button) => {
+    buttons.push(button);
+    button.addEventListener("click", () => {
+      SFX.playClick();
+      const i = Number(button.dataset.stage);
+      const targetProgress = (i + 0.02) / Math.max(1, stages.length);
+      if (window.gsap && window.ScrollTrigger) {
+        const st = ScrollTrigger.getById("mission-story-progress");
+        if (st) {
+          const targetY = st.start + targetProgress * (st.end - st.start);
+          if (STATE.lenis && !STATE.reducedMotion) {
+            STATE.lenis.scrollTo(targetY);
+          } else {
+            window.scrollTo({ top: targetY, behavior: STATE.reducedMotion ? "auto" : "smooth" });
+          }
+        } else {
+          progress = i / Math.max(1, stages.length - 1);
+          setStage(i);
+          draw();
+        }
+      } else {
+        progress = i / Math.max(1, stages.length - 1);
+        setStage(i);
+        draw();
+      }
+    });
+  });
+
+  function setStage(index) {
+    const i = Math.max(0, Math.min(stages.length - 1, index));
+    if (i === activeStage) return;
+    const hadPrevious = activeStage !== -1;
+    activeStage = i;
+    const s = stages[i];
+
+    if (activeCard && hadPrevious && !STATE.reducedMotion) {
+      activeCard.classList.add("is-stage-switching");
+      clearTimeout(stageSwitchTimer);
+      stageSwitchTimer = setTimeout(() => {
+        activeCard.classList.remove("is-stage-switching");
+      }, 150);
+    }
+
+    if (title) title.textContent = s.title;
+    if (desc) desc.textContent = s.desc;
+    if (code) code.textContent = s.code;
+    if (metric) metric.textContent = s.metric;
+    if (equation) equation.textContent = s.eq;
+    if (hudLeft) hudLeft.textContent = s.hud;
+    buttons.forEach((b, j) => {
+      b.classList.toggle("is-active", j === i);
+      b.setAttribute("aria-selected", String(j === i));
+    });
+  }
+
+  function draw() {
+    const w = canvas.width;
+    const h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "#040811";
+    ctx.fillRect(0, 0, w, h);
+
+    // Subtle telemetry grid
+    ctx.strokeStyle = "rgba(0, 229, 255, 0.075)";
+    ctx.lineWidth = 1;
+    for (let x = 0; x < w; x += 34) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+      ctx.stroke();
+    }
+    for (let y = 0; y < h; y += 34) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
+      ctx.stroke();
+    }
+
+    const p = Math.max(0, Math.min(1, progress));
+    const stageCount = stages.length;
+    const stage = Math.min(stageCount - 1, Math.floor(p * stageCount));
+    const local = p >= 1 ? 1 : (p * stageCount) % 1;
+    const earthR = Math.min(w, h) * 0.21;
+    const earthY = h * 0.88;
+
+    // Planet limb & atmospheric glow
+    const earthGrad = ctx.createRadialGradient(
+      w * 0.5,
+      earthY - earthR * 0.35,
+      earthR * 0.1,
+      w * 0.5,
+      earthY,
+      earthR * 1.95
+    );
+    earthGrad.addColorStop(0, "#0b4364");
+    earthGrad.addColorStop(0.62, "#071d34");
+    earthGrad.addColorStop(1, "#02050b");
+    ctx.fillStyle = earthGrad;
+    ctx.beginPath();
+    ctx.arc(w * 0.5, earthY, earthR * 1.85, Math.PI, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "rgba(0, 229, 255, 0.45)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(w * 0.5, earthY, earthR * 1.88, Math.PI, Math.PI * 2);
+    ctx.stroke();
+
+    // Primary reference trajectory curve from 600 km LEO to ground station / landing zone
+    ctx.strokeStyle = "rgba(0, 229, 255, 0.28)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 6]);
+    ctx.beginPath();
+    for (let i = 0; i <= 100; i++) {
+      const t = i / 100;
+      const x = w * (0.11 + t * 0.78);
+      const y = h * (0.24 + Math.sin(t * Math.PI * 1.15) * 0.11 + p * 0.34 * t);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Active traced arc up to current scroll progress
+    const activeT = Math.min(1, 0.08 + p * 0.92);
+    ctx.strokeStyle = "#00e5ff";
+    ctx.lineWidth = 2.2;
+    ctx.beginPath();
+    for (let i = 0; i <= 80; i++) {
+      const t = (i / 80) * activeT;
+      const x = w * (0.11 + t * 0.78);
+      const y = h * (0.24 + Math.sin(t * Math.PI * 1.15) * 0.11 + p * 0.34 * t);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    const satX = w * (0.11 + 0.78 * activeT);
+    const satY = h * (0.24 + Math.sin(activeT * Math.PI * 1.15) * 0.11 + p * 0.34 * activeT);
+
+    // -----------------------------------------------------------------------
+    // STAGE-SPECIFIC ENGINEERING VISUALIZATION OVERLAYS (SCROLL = TIME)
+    // -----------------------------------------------------------------------
+    if (stage === 0) {
+      // 01 // ORBITAL INSERTION: Separation ring & high initial tip-off tumble vectors
+      const sepRadius = 18 + local * 56;
+      ctx.strokeStyle = `rgba(198, 255, 0, ${(0.75 * (1 - local * 0.65)).toFixed(2)})`;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(satX, satY, sepRadius, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Tip-off angular rate vectors
+      for (let k = 0; k < 3; k++) {
+        const ang = local * 6.2 + (k * Math.PI * 2) / 3;
+        ctx.strokeStyle = k === 0 ? "#ff2a85" : "#c6ff00";
+        ctx.beginPath();
+        ctx.moveTo(satX, satY);
+        ctx.lineTo(satX + Math.cos(ang) * 44, satY + Math.sin(ang) * 44);
+        ctx.stroke();
+      }
+    } else if (stage === 1) {
+      // 02 // SENSE THE FIELD: IGRF-13 geomagnetic field lines & sun sensor cone
+      ctx.strokeStyle = "rgba(0, 229, 255, 0.32)";
+      ctx.lineWidth = 1.2;
+      for (let m = -2; m <= 2; m++) {
+        ctx.beginPath();
+        ctx.ellipse(
+          w * 0.5,
+          earthY - earthR * 0.9,
+          w * (0.26 + Math.abs(m) * 0.06),
+          h * (0.18 + Math.abs(m) * 0.05),
+          m * 0.08,
+          Math.PI * 1.08,
+          Math.PI * 1.92
+        );
+        ctx.stroke();
+      }
+      // Sun vector cone
+      ctx.fillStyle = "rgba(198, 255, 0, 0.12)";
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(satX - 75, satY - 48);
+      ctx.lineTo(satX - 38, satY - 76);
+      ctx.closePath();
+      ctx.fill();
+    } else if (stage === 2) {
+      // 03 // ESTIMATE ATTITUDE: QUEST/MEKF covariance ellipse shrinking as filter converges
+      const covRx = 64 * (1 - local * 0.72);
+      const covRy = 38 * (1 - local * 0.72);
+      ctx.strokeStyle = "#c6ff00";
+      ctx.lineWidth = 1.6;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.ellipse(satX, satY, covRx, covRy, -0.35 + local * 0.25, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Estimated vs Reference triad
+      const triadErr = (1 - local) * 0.52;
+      ctx.strokeStyle = "rgba(0, 229, 255, 0.85)";
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(satX + 46, satY - 12);
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(satX + 12, satY - 46);
+      ctx.stroke();
+
+      ctx.strokeStyle = "#ff2a85";
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(satX + Math.cos(-0.25 + triadErr) * 46, satY + Math.sin(-0.25 + triadErr) * 46);
+      ctx.stroke();
+    } else if (stage === 3) {
+      // 04 // DAMP ROTATION: B-dot magnetorquer dipole loops & torque vector τ = m × B
+      for (let loop = -1; loop <= 1; loop += 2) {
+        ctx.strokeStyle = "rgba(255, 42, 133, 0.55)";
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.ellipse(satX + loop * 22, satY, 22, 12, 0.3, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      // Damping rate mini-plot in upper-right quadrant
+      const plotX = w * 0.62;
+      const plotY = h * 0.16;
+      const plotW = w * 0.3;
+      const plotH = h * 0.16;
+      ctx.fillStyle = "rgba(5, 10, 20, 0.82)";
+      ctx.fillRect(plotX, plotY, plotW, plotH);
+      ctx.strokeStyle = "rgba(0, 229, 255, 0.3)";
+      ctx.strokeRect(plotX, plotY, plotW, plotH);
+      ctx.strokeStyle = "#c6ff00";
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      for (let i = 0; i <= 40; i++) {
+        const u = i / 40;
+        const px = plotX + 6 + u * (plotW - 12);
+        const env = Math.exp(-u * 3.4) * Math.cos(u * 14);
+        const py = plotY + plotH * 0.5 - env * (plotH * 0.38);
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    } else if (stage === 4) {
+      // 05 // DOWNLINK THE STATE: Ground-station telemetry cone & CRC-16 packet pulses
+      const gsX = w * 0.52;
+      const gsY = earthY - earthR * 1.85;
+      ctx.fillStyle = "rgba(0, 229, 255, 0.09)";
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(gsX - 38, gsY);
+      ctx.lineTo(gsX + 38, gsY);
+      ctx.closePath();
+      ctx.fill();
+
+      // Streaming telemetry packets along beam
+      for (let k = 0; k < 5; k++) {
+        const u = (local * 2 + k * 0.2) % 1;
+        const px = satX + (gsX - satX) * u;
+        const py = satY + (gsY - satY) * u;
+        ctx.fillStyle = k % 2 === 0 ? "#00e5ff" : "#c6ff00";
+        ctx.fillRect(px - 4, py - 2, 8, 4);
+      }
+    } else if (stage === 5) {
+      // 06 // MODEL THE DESCENT: CAN-7USAT guided descent corridor & target landing ellipse
+      const lzX = w * 0.82;
+      const lzY = h * 0.76;
+      ctx.strokeStyle = "rgba(198, 255, 0, 0.45)";
+      ctx.lineWidth = 1.3;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(lzX - 42 * (1 - local * 0.6), lzY);
+      ctx.moveTo(satX, satY);
+      ctx.lineTo(lzX + 42 * (1 - local * 0.6), lzY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.strokeStyle = "#c6ff00";
+      ctx.lineWidth = 1.8;
+      ctx.beginPath();
+      ctx.ellipse(lzX, lzY, 44 * (1 - local * 0.55), 13 * (1 - local * 0.55), 0, 0, Math.PI * 2);
+      ctx.stroke();
+    } else {
+      // 07 // CLOSE THE LOOP: Phase-portrait spiral converging to nominal equilibrium
+      ctx.strokeStyle = "rgba(198, 255, 0, 0.72)";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      for (let i = 0; i <= 90; i++) {
+        const u = i / 90;
+        const r = (1 - u) * 58 * (1 - local * 0.35);
+        const a = u * Math.PI * 5.5 + local * 3;
+        const px = satX + Math.cos(a) * r;
+        const py = satY + Math.sin(a) * r * 0.68;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+    }
+
+    // Satellite / vehicle body
+    const tumbleRate = stage === 0 ? (1 - local * 0.5) * 2.6 : stage <= 3 ? (1 - p * 0.8) * 1.1 : 0.18;
+    ctx.save();
+    ctx.translate(satX, satY);
+    ctx.rotate(p * 2.4 * tumbleRate);
+    ctx.fillStyle = "#dce8ee";
+    ctx.fillRect(-9, -8, 18, 16);
+    ctx.fillStyle = "#00e5ff";
+    ctx.fillRect(-28, -6, 16, 12);
+    ctx.fillRect(12, -6, 16, 12);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.55)";
+    ctx.strokeRect(-28, -6, 16, 12);
+    ctx.strokeRect(12, -6, 16, 12);
+    ctx.restore();
+
+    // Primary attitude vector arrow
+    const vecAngle = -0.55 + Math.cos(p * 6.5) * (1 - p * 0.78);
+    ctx.strokeStyle = "#c6ff00";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(satX, satY);
+    ctx.lineTo(satX + Math.cos(vecAngle) * 40, satY + Math.sin(vecAngle) * 40);
+    ctx.stroke();
+
+    ctx.fillStyle = "#c6ff00";
+    ctx.beginPath();
+    ctx.arc(satX, satY, 3.2, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Telemetry Readouts
+    const altKm = stage < 5 ? (600 - p * 42).toFixed(1) : (1.8 * (1 - local * 0.88)).toFixed(2);
+    const omegaDeg = (12.4 * Math.exp(-p * 3.8)).toFixed(2);
+    ctx.fillStyle = "rgba(230, 245, 255, 0.86)";
+    ctx.font = "11px 'JetBrains Mono', monospace";
+    ctx.fillText(`ALTITUDE      ${altKm} KM`, 20, 28);
+    ctx.fillText(`FLIGHT PHASE  0${stage + 1}/0${stageCount} // ${stages[stage].title}`, 20, 46);
+    ctx.fillText(`BODY RATE |ω| ${omegaDeg} DEG/S`, 20, 64);
+
+    ctx.fillStyle = "rgba(0, 229, 255, 0.78)";
+    ctx.fillText(`CLOSED-LOOP PROGRESS // ${(p * 100).toFixed(1)}%`, 20, h - 18);
+
+    // Top-right progress bar inside canvas
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.16)";
+    ctx.strokeRect(w - 150, 18, 128, 7);
+    ctx.fillStyle = "#00e5ff";
+    ctx.fillRect(w - 150, 18, 128 * p, 7);
+
+    if (hudProgress) {
+      hudProgress.textContent = `T+ ${(p * 5790).toFixed(1)}s [${String(Math.round(p * 100)).padStart(2, "0")}%]`;
+    }
+    setStage(stage);
+  }
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    const rect = canvas.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    draw();
+  }
+
+  if (window.gsap && window.ScrollTrigger) {
+    gsap.to(
+      { value: 0 },
+      {
+        value: 1,
+        ease: "none",
+        onUpdate: function () {
+          progress = this.targets()[0].value;
+          draw();
+        },
+        scrollTrigger: {
+          id: "mission-story-progress",
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.max(2200, window.innerHeight * MOTION.scroll.missionPinScreens)}`,
+          pin: "#mission-pin-wrap",
+          scrub: MOTION.scroll.scrubSmooth,
+          invalidateOnRefresh: true
+        }
+      }
+    );
+  } else {
+    const update = () => {
+      const r = section.getBoundingClientRect();
+      const span = section.offsetHeight - window.innerHeight;
+      progress = Math.max(0, Math.min(1, -r.top / Math.max(1, span)));
+      draw();
+    };
+    window.addEventListener("scroll", update, { passive: true });
+  }
+
+  window.addEventListener("resize", resize, { passive: true });
+  resize();
+  draw();
+}
+
+function initPhysicsInteractions() {
+  // Pointer-reactive closing typography ("LET'S TALK"):
+  // Outer .lt-char-wrap is reserved for GSAP scroll entrance; inner .lt-char is driven by 2D spring physics.
+  const stage = document.getElementById("lets-talk-stage");
+  const cta = document.getElementById("lets-talk-cta");
+  if (!stage || !cta) return;
+
+  const wraps = Array.from(cta.querySelectorAll(".lt-char-wrap"));
+  if (!wraps.length) return;
+
+  const nodes = wraps
+    .map((wrapEl, idx) => {
+      const charEl = wrapEl.querySelector(".lt-char");
+      if (!charEl) return null;
+      return {
+        wrapEl,
+        charEl,
+        idx,
+        localCx: 0,
+        localCy: 0,
+        posSpring: new Spring2D(0, 0, MOTION.springs.letsTalkChar),
+        deformSpring: new Spring2D(0, 0, MOTION.springs.letsTalkDeform) // x = rotate (deg), y = skewX (deg)
+      };
+    })
+    .filter(Boolean);
+
+  if (!nodes.length) return;
+
+  let stageRect = { left: 0, top: 0, width: 1000, height: 220 };
+  let localPointerX = -10000;
+  let localPointerY = -10000;
+  let lastLocalX = 0;
+  let lastLocalY = 0;
+  let lastMoveTime = performance.now();
+  let inside = false;
+  let rafId = null;
+  let prevFrameTime = performance.now();
+
+  // Cache resting centers relative to #lets-talk-stage on layout/resize — zero per-frame getBoundingClientRect()
+  function measureLayout() {
+    const sRect = stage.getBoundingClientRect();
+    if (sRect.width <= 0) return;
+    stageRect = {
+      left: sRect.left,
+      top: sRect.top,
+      width: sRect.width,
+      height: sRect.height
+    };
+    nodes.forEach((n) => {
+      const wRect = n.wrapEl.getBoundingClientRect();
+      n.localCx = wRect.left - sRect.left + wRect.width * 0.5;
+      n.localCy = wRect.top - sRect.top + wRect.height * 0.5;
+    });
+  }
+
+  function refreshStageOffsetOnly() {
+    const sRect = stage.getBoundingClientRect();
+    stageRect.left = sRect.left;
+    stageRect.top = sRect.top;
+    stageRect.width = sRect.width || stageRect.width;
+    stageRect.height = sRect.height || stageRect.height;
+  }
+
+  function resetAllTargetsToRest(snapImmediately = false) {
+    nodes.forEach((n) => {
+      if (snapImmediately) {
+        n.posSpring.snap(0, 0);
+        n.deformSpring.snap(0, 0);
+        n.charEl.style.transform = "translate3d(0px, 0px, 0px)";
+        n.charEl.style.setProperty("--rgb-x", "0px");
+        n.charEl.style.setProperty("--rgb-y", "0px");
+      } else {
+        n.posSpring.set(0, 0);
+        n.deformSpring.set(0, 0);
+      }
+    });
+  }
+
+  function updateFieldTargets(transferVelocityPxX = 0, transferVelocityPxY = 0) {
+    if (!inside || STATE.reducedMotion) {
+      resetAllTargetsToRest(STATE.reducedMotion);
+      return;
+    }
+
+    const radius = Math.max(165, Math.min(285, stageRect.width * 0.24));
+    const attractRadius = radius * 1.48;
+    const speed = Math.hypot(transferVelocityPxX, transferVelocityPxY);
+
+    nodes.forEach((n) => {
+      const dx = n.localCx - localPointerX;
+      const dy = n.localCy - localPointerY;
+      const dist = Math.hypot(dx, dy) || 1;
+
+      let tx = 0;
+      let ty = 0;
+      let tRot = 0;
+      let tSkew = 0;
+
+      if (dist < radius) {
+        const u = 1 - dist / radius;
+        const falloff = u * u * (3 - 2 * u); // smoothstep falloff
+        const repulseStrength = 44 * falloff;
+        tx += (dx / dist) * repulseStrength;
+        ty += (dy / dist) * repulseStrength * 0.88;
+
+        // Rotational torque and shear based on horizontal/vertical offset from cursor
+        const normX = dx / radius;
+        const normY = dy / radius;
+        tRot += normX * -14 * falloff + normY * 5 * falloff;
+        tSkew += normX * -10 * falloff;
+
+        // Transfer pointer momentum directly into nearby letters when sweeping quickly
+        if (speed > 25) {
+          const impulseScale = falloff * 0.34;
+          const clampedVx = Math.max(-780, Math.min(780, transferVelocityPxX * impulseScale));
+          const clampedVy = Math.max(-680, Math.min(680, transferVelocityPxY * impulseScale));
+          n.posSpring.addVelocity(clampedVx, clampedVy);
+          n.deformSpring.addVelocity(
+            Math.max(-180, Math.min(180, transferVelocityPxX * 0.09 * falloff)),
+            Math.max(-140, Math.min(140, transferVelocityPxX * 0.065 * falloff))
+          );
+        }
+      } else if (dist < attractRadius) {
+        // Subtle outer elastic tension field pulling neighboring letters slightly toward the wake
+        const u = 1 - (dist - radius) / (attractRadius - radius);
+        const pull = Math.sin(u * Math.PI) * 6.5;
+        tx -= (dx / dist) * pull;
+        ty -= (dy / dist) * pull * 0.7;
+        tRot += (dx / attractRadius) * 3.2 * u;
+      }
+
+      n.posSpring.set(tx, ty);
+      n.deformSpring.set(tRot, tSkew);
+    });
+  }
+
+  function ensureTickRunning() {
+    if (rafId !== null || STATE.reducedMotion) return;
+    prevFrameTime = performance.now();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function tick(now) {
+    if (STATE.reducedMotion) {
+      resetAllTargetsToRest(true);
+      rafId = null;
+      return;
+    }
+
+    const dt = Math.min(0.032, Math.max(0.001, (now - prevFrameTime) / 1000));
+    prevFrameTime = now;
+
+    // If pointer is stationary inside stage, settle target field smoothly without velocity impulses
+    if (inside && now - lastMoveTime > 48) {
+      updateFieldTargets(0, 0);
+    }
+
+    let anyActive = inside;
+
+    for (let i = 0; i < nodes.length; i++) {
+      const n = nodes[i];
+      const pos = n.posSpring.step(dt, false);
+      const def = n.deformSpring.step(dt, false);
+
+      const atRest = n.posSpring.isAtRest() && n.deformSpring.isAtRest();
+      if (!atRest) anyActive = true;
+
+      if (atRest && !inside) {
+        n.charEl.style.transform = "translate3d(0px, 0px, 0px)";
+        n.charEl.style.setProperty("--rgb-x", "0px");
+        n.charEl.style.setProperty("--rgb-y", "0px");
+      } else {
+        // Elastic squash/stretch derived from vertical velocity & displacement magnitude
+        const velMag = Math.hypot(pos.vx, pos.vy);
+        const stretch = Math.min(0.11, velMag * 0.00018 + Math.hypot(pos.x, pos.y) * 0.0012);
+        const scaleY = 1 + stretch;
+        const scaleX = 1 - stretch * 0.45;
+
+        n.charEl.style.transform = `translate3d(${pos.x.toFixed(2)}px, ${pos.y.toFixed(2)}px, 0) rotate(${def.x.toFixed(2)}deg) skewX(${def.y.toFixed(2)}deg) scale(${scaleX.toFixed(3)}, ${scaleY.toFixed(3)})`;
+
+        // Dynamic RGB chromatic split proportional to displacement + velocity
+        const rgbX = Math.max(-7.5, Math.min(7.5, pos.x * 0.14 + pos.vx * 0.008));
+        const rgbY = Math.max(-5.5, Math.min(5.5, pos.y * 0.12 + pos.vy * 0.006));
+        n.charEl.style.setProperty("--rgb-x", `${rgbX.toFixed(2)}px`);
+        n.charEl.style.setProperty("--rgb-y", `${rgbY.toFixed(2)}px`);
+      }
+    }
+
+    if (anyActive) {
+      rafId = requestAnimationFrame(tick);
+    } else {
+      rafId = null;
+    }
+  }
+
+  function triggerWaveImpulse(amplitudeY = -28) {
+    if (STATE.reducedMotion) return;
+    nodes.forEach((n, i) => {
+      const phase = (i / Math.max(1, nodes.length - 1)) * Math.PI;
+      const vy = amplitudeY * 11 * (0.65 + Math.sin(phase) * 0.65);
+      const vx = (i - (nodes.length - 1) * 0.5) * 26;
+      n.posSpring.addVelocity(vx, vy);
+      n.deformSpring.addVelocity((i % 2 === 0 ? 1 : -1) * 85, (i - 4) * 18);
+    });
+    ensureTickRunning();
+  }
+
+  stage.addEventListener(
+    "pointerenter",
+    (e) => {
+      if (STATE.reducedMotion) return;
+      measureLayout();
+      inside = e.pointerType !== "touch";
+      localPointerX = e.clientX - stageRect.left;
+      localPointerY = e.clientY - stageRect.top;
+      lastLocalX = localPointerX;
+      lastLocalY = localPointerY;
+      lastMoveTime = performance.now();
+      if (inside) {
+        updateFieldTargets(STATE.pointerVelocityX * 0.25, STATE.pointerVelocityY * 0.25);
+        ensureTickRunning();
+      }
+    },
+    { passive: true }
+  );
+
+  stage.addEventListener(
+    "pointermove",
+    (e) => {
+      if (STATE.reducedMotion || e.pointerType === "touch") return;
+      if (!inside) {
+        measureLayout();
+        inside = true;
+      } else {
+        refreshStageOffsetOnly();
+      }
+      const now = performance.now();
+      const dtMs = Math.max(4, now - lastMoveTime);
+      const nextX = e.clientX - stageRect.left;
+      const nextY = e.clientY - stageRect.top;
+      const pvx = ((nextX - lastLocalX) / dtMs) * 1000;
+      const pvy = ((nextY - lastLocalY) / dtMs) * 1000;
+
+      localPointerX = lastLocalX = nextX;
+      localPointerY = lastLocalY = nextY;
+      lastMoveTime = now;
+
+      updateFieldTargets(pvx, pvy);
+      ensureTickRunning();
+    },
+    { passive: true }
+  );
+
+  const handleLeave = () => {
+    inside = false;
+    resetAllTargetsToRest(false);
+    ensureTickRunning();
+  };
+
+  stage.addEventListener("pointerleave", handleLeave, { passive: true });
+  stage.addEventListener("pointercancel", handleLeave, { passive: true });
+
+  // Graceful mobile/touch fallback: radial spring ripple on tap that settles naturally
+  stage.addEventListener(
+    "pointerdown",
+    (e) => {
+      if (STATE.reducedMotion) return;
+      measureLayout();
+      const tapX = e.clientX - stageRect.left;
+      const tapY = e.clientY - stageRect.top;
+      if (e.pointerType === "touch" || STATE.isCoarsePointer) {
+        inside = false;
+        nodes.forEach((n) => {
+          const dx = n.localCx - tapX;
+          const dy = n.localCy - tapY;
+          const dist = Math.hypot(dx, dy) || 1;
+          const falloff = Math.max(0.18, 1 - Math.min(1, dist / Math.max(220, stageRect.width * 0.6)));
+          n.posSpring.addVelocity((dx / dist) * 340 * falloff, (dy / dist - 0.55) * 380 * falloff);
+          n.deformSpring.addVelocity((dx / dist) * -120 * falloff, (dx / dist) * -65 * falloff);
+          n.posSpring.set(0, 0);
+          n.deformSpring.set(0, 0);
+        });
+        ensureTickRunning();
+      }
+    },
+    { passive: true }
+  );
+
+  // Keyboard focus response
+  cta.addEventListener("focus", () => {
+    if (!inside && !STATE.reducedMotion) {
+      triggerWaveImpulse(-22);
+    }
+  });
+
+  window.addEventListener("resize", measureLayout, { passive: true });
+  window.addEventListener("letsTalkLayoutUpdated", measureLayout);
+  onMotionPreferenceChange((reduced) => {
+    if (reduced) {
+      inside = false;
+      resetAllTargetsToRest(true);
+    }
+  });
+
+  requestAnimationFrame(measureLayout);
+}
+
+function initEditorialScrollEnhancements() {
+  if (!window.gsap || !window.ScrollTrigger) return;
+  const reduced = STATE.reducedMotion;
+
+  // Staggered editorial entrance for dossier cards, facts, skill columns, and guestbook entries
+  gsap.utils.toArray(".dossier-item, .fact-card, .skill-col, .gb-entry").forEach((el, i) => {
+    if (reduced) {
+      el.style.opacity = "1";
+      return;
+    }
+    gsap.fromTo(
+      el,
+      { y: 26, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: MOTION.durations.reveal,
+        delay: (i % 4) * 0.035,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: el,
+          start: "top 92%",
+          once: true
+        }
+      }
+    );
+  });
+
+  // Counter-drifting background orbital coordinates in Section 01 (#about)
+  const coordSpans = gsap.utils.toArray("#about-bg-coords span");
+  coordSpans.forEach((span, idx) => {
+    if (reduced) return;
+    const dir = idx % 2 === 0 ? -1 : 1;
+    gsap.fromTo(
+      span,
+      { xPercent: dir * -6 },
+      {
+        xPercent: dir * 6,
+        ease: "none",
+        scrollTrigger: {
+          trigger: "#about",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.8
+        }
+      }
+    );
+  });
+
+  // Subtle depth scrub on mission canvas frame and active project indicator
+  gsap.utils.toArray(".mission-canvas-frame, .work-active-indicator").forEach((el) => {
+    if (reduced) return;
+    gsap.fromTo(
+      el,
+      { y: 18, opacity: 0.65 },
+      {
+        y: 0,
+        opacity: 1,
+        ease: "none",
+        scrollTrigger: {
+          trigger: el,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 0.7
+        }
+      }
+    );
+  });
+
+  // Scroll-driven Project Rows: depth reveal + automatic dominant system selection as rows cross viewport center
+  gsap.utils.toArray(".project-row").forEach((row, idx) => {
+    if (!reduced) {
+      gsap.fromTo(
+        row,
+        { y: 24, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.7,
+          delay: idx * 0.05,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: row,
+            start: "top 92%",
+            once: true
+          }
+        }
+      );
+    }
+
+    ScrollTrigger.create({
+      trigger: row,
+      start: "top 58%",
+      end: "bottom 42%",
+      onEnter: () => {
+        if (STATE.hoveredProjectIndex === -1) setDominantProject(idx, "scroll");
+      },
+      onEnterBack: () => {
+        if (STATE.hoveredProjectIndex === -1) setDominantProject(idx, "scroll");
+      }
+    });
+  });
+
+  onMotionPreferenceChange(() => {
+    if (window.ScrollTrigger) {
+      window.ScrollTrigger.refresh();
+    }
+  });
+}
+
+
 /**
  * ============================================================================
  * 09 // INITIALIZE APPLICATION (FAULT-ISOLATED PER SUBSYSTEM)
@@ -2352,7 +4267,10 @@ window.addEventListener("DOMContentLoaded", () => {
     ["initBootSequence", initBootSequence],
     ["initOrbitalScene", initOrbitalScene],
     ["initCursorAndInteractions", initCursorAndInteractions],
-    ["initSystemsAndGuestbook", initSystemsAndGuestbook]
+    ["initSystemsAndGuestbook", initSystemsAndGuestbook],
+    ["initMissionStory", initMissionStory],
+    ["initPhysicsInteractions", initPhysicsInteractions],
+    ["initEditorialScrollEnhancements", initEditorialScrollEnhancements]
   ];
 
   subsystems.forEach(([name, fn]) => {
